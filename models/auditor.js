@@ -1,5 +1,6 @@
 'use strict';
 
+var constants = require('../configs/constants.js');
 const network = require('../libs/fabric-lib/food-supply-chain-network');
 
 var Auditor = class {
@@ -11,15 +12,26 @@ var Auditor = class {
         this.content = opt.content;
     }
 
+    toString()
+    {
+        return "[ auditor-id: " + this.id + " , name: " + this.name + 
+        " , objectType: " + this.objectType + " , content: " + this.content + " ]";   
+    }
+
     create()
     {
         return network.invoke('createAuditor', this);        
     }
 
-    toString()
+    update()
     {
-        return "[ auditor-id: " + this.id + " , name: " + this.name + 
-        " , objectType: " + this.objectType + " , content: " + this.content + " ]";   
+        return network.invoke('updateAuditor', this);        
+    }
+
+    static find(id)
+    {
+        let objectType = constants.ObjectTypes.Auditor;
+        return network.query('getObject', id, objectType);
     }
 }
 

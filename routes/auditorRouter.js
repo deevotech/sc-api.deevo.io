@@ -8,70 +8,57 @@ var router = express.Router();
 router.use(bodyParser.json());
 
 router.route('/')
-.get(function (req, res, next) {
-    Dishes.find({}, function (err, dish) {
-        if (err) throw err;
-        res.json(dish);
-    });
+.get(function (req, res, next) {      
+    res.end('Not available yet');
 })
 
 .post(function (req, res, next) {
-
     var newAuditor = new Auditor({
         id: uuidv1(),
         objectType: constants.ObjectTypes.Auditor,
         name: req.body.name,
         content: req.body.content
     })
-
-    newAuditor.create().then(status => {
-        
+    newAuditor.create().then(status => {        
         if(status == "SUCCESS")
-        {
-            res.writeHead(200, {
-                'Content-Type': 'text/plain'
-            });
-
-            res.end('Added the auditor : ' + newAuditor.id);
-        }
-
+            res.end('Added the auditor : ' + newAuditor.id);        
     }).catch(err => {
-        if (err) throw err;        
+        if(err) return next(err);        
     });    
 })
 
 .delete(function (req, res, next) {
-    Dishes.remove({}, function (err, resp) {
-        if (err) throw err;
-        res.json(resp);
-    });
+    res.end('Not available yet');
 });
 
 // ======================================================
 
 router.route('/:auditorId')
-.get(function (req, res, next) {
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        if (err) throw err;
-        res.json(dish);
-    });
+.get(function (req, res, next) {    
+    Auditor.find(req.params.auditorId).then(auditor => {       
+        res.json(auditor);
+    }).catch(err => {
+        if(err) return next(err);
+    });    
 })
 
 .put(function (req, res, next) {
-    Dishes.findByIdAndUpdate(req.params.dishId, {
-        $set: req.body
-    }, {
-        new: true
-    }, function (err, dish) {
-        if (err) throw err;
-        res.json(dish);
+    var newAuditor = new Auditor({
+        id: req.params.auditorId,
+        objectType: constants.ObjectTypes.Auditor,
+        name: req.body.name,
+        content: req.body.content
+    })
+    newAuditor.update().then(status => {        
+        if(status == "SUCCESS")
+            res.render('Updated the auditor : ' + newAuditor.id);        
+    }).catch(err => {
+        if(err) return next(err);
     });
 })
 
-.delete(function (req, res, next) {
-    Dishes.findByIdAndRemove(req.params.dishId, function (err, resp) {        if (err) throw err;
-        res.json(resp);
-    });
+.delete(function (req, res, next) {    
+    res.end('Not implemented yet');
 });
 
 // ======================================================

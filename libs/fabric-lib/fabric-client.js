@@ -156,22 +156,37 @@ class FBClient extends FabricClient {
     }
 
     query(requestData) {
-
         var channel = this.getChannel(constants.ChannelName);
         return channel.queryByChaincode(requestData).then((response_payloads) => {
-            var resultData = JSON.parse(response_payloads.toString('utf8'));
-            return resultData;
-        }).then(function(resultData) {
-            if (resultData.constructor === Array) {
-                resultData = resultData.map(function (item, index) {
-                    if (item.data) {
-                        return item.data
-                    } else {
-                        return item;
+            
+            if(response_payloads && response_payloads.length>0)
+            {
+                if(!response_payloads[0].code)
+                {
+                    try
+                    {
+                        let resultData = JSON.parse(response_payloads[0].toString('utf8'));                    
+                        return Promise.resolve(resultData);
                     }
-                })
+                    catch(e)
+                    {
+                        console.log('JSON.parse() failed with execption: ' + e);
+                        return Promise.reject(new Error('JSON.parse() failed with execption: ' + e));
+                    }
+                }
+                else
+                {
+                    return Promise.reject(new Error(response_payloads[0]));
+                }
             }
-            return resultData;
+            else {
+                console.log('response_payloads is null');                
+                return Promise.reject(new Error('response_payloads is null'))
+            }            
+        },
+        (err) => {
+            console.log('Failed to send query due to error: ' + err.stack ? err.stack : err);
+            return Promise.reject(new Error(('Failed to send query due to error: ' + err.stack ? err.stack : err)));
         });
     }
 }

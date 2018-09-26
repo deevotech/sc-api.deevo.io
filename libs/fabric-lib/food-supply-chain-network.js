@@ -99,6 +99,18 @@ class FoodSupplyChainNetwork {
     };
     return this.connection.submitTransaction(requestData);
   }
+
+  query(fcn, id, objectType) {
+    
+    var tx_id = this.connection.newTransactionID();
+    var requestData = {
+      chaincodeId: constants.ChainCodeId,
+      fcn: fcn,
+      args: [id, objectType],
+      txId: tx_id
+    };
+    return this.connection.query(requestData);
+  }
 }
 
 // for this mvp, use admin-org1 as shared user for all users.

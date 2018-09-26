@@ -42,7 +42,7 @@ channels:
         eventSource: true
       peer1-org2:
         endorsingPeer: true
-        chaincodeQuery: true
+        chaincodeQuery: false
         ledgerQuery: true
         eventSource: false
     chaincodes:
