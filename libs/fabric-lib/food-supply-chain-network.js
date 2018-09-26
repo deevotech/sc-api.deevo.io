@@ -1,6 +1,10 @@
-var fabricClient = require('./fabric-client');
 var fsx = require('fs-extra');
+var fabricClient = require('./fabric-client');
+var constants = require('../../configs/constants.js');
 
+/**
+* A network to wrap the connection/client object to interact with HLF network. 	 	 
+*/
 class FoodSupplyChainNetwork {
 
   constructor(userName, password) {    
@@ -12,8 +16,8 @@ class FoodSupplyChainNetwork {
   }
 
   /**
-	 * Utility method to delete the mutual tls client material used 	 	 
-	 */
+	* Utility method to delete the mutual tls client material used 	 	 
+	*/
   _cleanUpTLSKeys()
   {
     let client_config = this.connection.getClientConfig();
@@ -23,9 +27,9 @@ class FoodSupplyChainNetwork {
     fsx.copySync(store_path,crypto_path);
   }
 
-   /**
-	 * Get and setup TLS mutual authentication for endpoints for this connection
-	 */
+  /**
+	* Get and setup TLS mutual authentication for endpoints for this connection
+	*/
   _setUpTLSKeys()
   {
     return this.connection.initCredentialStores().then(() => {
@@ -33,8 +37,8 @@ class FoodSupplyChainNetwork {
         var caService = this.connection.getCertificateAuthority();
 
         let request = {
-          enrollmentID: "admin-org1",
-          enrollmentSecret: "admin-org1pw",
+          enrollmentID: constants.OrgAdmin.Username,
+          enrollmentSecret: constants.OrgAdmin.Password,
           profile: 'tls'
         };
 
@@ -56,7 +60,7 @@ class FoodSupplyChainNetwork {
   */
   _initChannelMSP()
   {
-      var channel = this.connection.getChannel('baotestchannel');
+      var channel = this.connection.getChannel(constants.ChannelName);
       return channel.initialize();
   }
 
@@ -70,7 +74,7 @@ class FoodSupplyChainNetwork {
         this._initChannelMSP()
         .then(() => {    
             var isAdmin = false;
-            if (this.userName == "admin-org1") {
+            if (this.userName == constants.OrgAdmin.Username) {
               isAdmin = true;
             }     
             // Restore the state of user by the given name from key value store 
@@ -88,7 +92,7 @@ class FoodSupplyChainNetwork {
     var dataAsBytes = new Buffer(JSON.stringify(data));		
     var tx_id = this.connection.newTransactionID();
     var requestData = {
-      chaincodeId: 'food_supplychain' ,
+      chaincodeId: constants.ChainCodeId,
       fcn: fcn,
       args: [dataAsBytes],
       txId: tx_id
@@ -98,7 +102,7 @@ class FoodSupplyChainNetwork {
 }
 
 // for this mvp, use admin-org1 as shared user for all users.
-const sharedUserName = 'admin-org1';
+const sharedUserName = constants.OrgAdmin.Username;
 var foodSupplyChainNetwork = new FoodSupplyChainNetwork(sharedUserName);
 foodSupplyChainNetwork.init();
 module.exports = foodSupplyChainNetwork;

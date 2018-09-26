@@ -6,6 +6,8 @@ var connectionProfilePath = path.join(__dirname, '../../configs/fabric-network-c
 const CONFIG = fs.readFileSync(connectionProfilePath, 'utf8')
 var eventhubs = []; 
 
+var constants = require('../../configs/constants.js');
+
 class FBClient extends FabricClient {
 
     constructor(props) {
@@ -24,7 +26,7 @@ class FBClient extends FabricClient {
 
         var returnData;
         var _this = this;
-        var channel = this.getChannel('baotestchannel');
+        var channel = this.getChannel(constants.ChannelName);
         var peers = this.getPeersForOrg();        
         var eh = channel.newChannelEventHub(peers[0].getName());      
 		eh.connect();
@@ -155,7 +157,7 @@ class FBClient extends FabricClient {
 
     query(requestData) {
 
-        var channel = this.getChannel();
+        var channel = this.getChannel(constants.ChannelName);
         return channel.queryByChaincode(requestData).then((response_payloads) => {
             var resultData = JSON.parse(response_payloads.toString('utf8'));
             return resultData;
