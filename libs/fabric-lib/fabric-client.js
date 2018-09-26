@@ -48,21 +48,10 @@ class FBClient extends FabricClient {
                     console.log('transaction proposal has response status of good');
                     
                     one_good = channel.verifyProposalResponse(proposal_response);
-
-                    //one_good = channel.verifyProposalResponse(proposal_response);
-                    // if(one_good) {
-                    //     console.log('transaction proposal signature and endorser are valid');
-                    // }
-    
-                    // check payload
-                    // let payload = proposal_response.response.payload.toString();
-                    // // 'move success' is the expected payload from 'move' invoke
-                    // if(payload === 'move succeed'){
-                    // 	t.pass('transaction proposal payloads are valid');
-                    // } else {
-                    // 	one_good = false;
-                    // 	t.fail('transaction proposal payloads are invalid');
-                    // }
+                    if(one_good) {
+                        console.log('transaction proposal signature and endorser are valid');
+                    }   
+              
                 } else {
                     console.log('transaction proposal was bad');
                 }
