@@ -58,9 +58,6 @@ class FBClient extends FabricClient {
                 all_proposal_good = all_proposal_good & one_good;
             }
 
-            //returnData = proposalResponses[0].response.payload.toString();
-            //returnData = JSON.parse(returnData);
-
             if (all_proposal_good) {
                 console.log(
                     'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s"',
