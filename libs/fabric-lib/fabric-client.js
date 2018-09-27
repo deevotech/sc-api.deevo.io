@@ -37,6 +37,7 @@ class FBClient extends FabricClient {
             var proposalResponses = results[0];
             var proposal = results[1];
             var all_proposal_good = true;
+            var err_found = null;
 
             // check if the number of Proposal Responses is 2
             all_proposal_good = proposalResponses.length === 2;
@@ -45,18 +46,25 @@ class FBClient extends FabricClient {
             for(var i in proposalResponses) {
                 let one_good = false;
                 let proposal_response = proposalResponses[i];
-                if( proposal_response.response && proposal_response.response.status === 200) {
-                    
-                    console.log('transaction proposal has response status of good');
-                    
+                if(proposal_response.code)
+                {
+                   console.log(proposal_response.message);
+                   err_found =  new Error(proposal_response.message);
+                }
+                else 
+                if ( proposal_response.response && proposal_response.response.status === 200) {                    
+                    console.log('transaction proposal has response status of good');                    
                     one_good = channel.verifyProposalResponse(proposal_response);
                     if(one_good) {
                         console.log('transaction proposal signature and endorser are valid');
-                    }   
-              
-                } else {
-                    console.log('transaction proposal was bad');
+                    }                 
+                    else 
+                    {
+                        console.log('transaction proposal was bad');
+                        err_found = new Error('verify proposal response signature failed');
+                    }
                 }
+                
                 all_proposal_good = all_proposal_good & one_good;
             }
 
@@ -114,19 +122,27 @@ class FBClient extends FabricClient {
                     }).catch((err) => {
 
                         console.log('Failed to send transaction and get notifications within the timeout period.');
-                        throw new Error('Failed to send transaction and get notifications within the timeout period.');
+                        //throw new Error('Failed to send transaction and get notifications within the timeout period.');
+                        
 
                     });
 
             } else { // all_proposal_good == false 
-                console.error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');
-                throw new Error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');
+                console.error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');                
+                if(!err_found)
+                    err_found  = new Error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...'); 
+
+                let result = {
+                    status : "FAILED",
+                    err : err_found    
+                };                
+                return result;
             }
 
         },(err) => { // error method of channel.sendTransactionProposal's Promise
 
             t.fail('Failed to send proposal due to error: ' + err.stack ? err.stack : err);
-            throw new Error('Failed to send proposal due to error: ' + err.stack ? err.stack : err);
+            //throw new Error('Failed to send proposal due to error: ' + err.stack ? err.stack : err);
 
         }).then((response) => { //the response from main promise.
  
@@ -145,12 +161,13 @@ class FBClient extends FabricClient {
 
             } else {
                 console.log('Failed to order the transaction. Error code: ' + response.status);
-                throw new Error('Failed to order the transaction. Error code: ' + response.status);
+                return Promise.reject(response.err);
+                //throw new Error('Failed to order the transaction. Error code: ' + response.status);
             }
         }, (err) => {
     
             console.log('Failed to send transaction due to error: ' + err.stack ? err.stack : err);
-            throw new Error('Failed to send transaction due to error: ' + err.stack ? err.stack : err);
+            //throw new Error('Failed to send transaction due to error: ' + err.stack ? err.stack : err);
     
         });
     }

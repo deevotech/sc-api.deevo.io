@@ -11,6 +11,11 @@ module.exports = {
 
 module.exports.ObjectTypes = {};
 module.exports.ObjectTypes.Auditor = 'auditor';
+module.exports.ObjectTypes.Org = 'org';
+module.exports.ObjectTypes.Party = 'party';
+module.exports.ObjectTypes.Location = 'location';
+module.exports.ObjectTypes.Asset = 'asset';
+module.exports.ObjectTypes.Product = 'product';
 
 module.exports.ChannelName = 'baotestchannel'
 module.exports.ChainCodeId = 'food_supplychain'

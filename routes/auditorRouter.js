@@ -9,7 +9,7 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(function (req, res, next) {      
-    res.end('Not available yet');
+    return next(new Error('Out of scope, this action is not implemented yet.'));
 })
 
 .post(function (req, res, next) {
@@ -21,14 +21,19 @@ router.route('/')
     })
     newAuditor.create().then(status => {        
         if(status == "SUCCESS")
+        {
+            res.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
             res.end('Added the auditor : ' + newAuditor.id);        
+        }
     }).catch(err => {
         if(err) return next(err);        
     });    
 })
 
 .delete(function (req, res, next) {
-    res.end('Not available yet');
+    return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
 // ======================================================
@@ -51,14 +56,19 @@ router.route('/:auditorId')
     })
     newAuditor.update().then(status => {        
         if(status == "SUCCESS")
-            res.render('Updated the auditor : ' + newAuditor.id);        
+        {
+            res.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Updated the auditor : ' + newAuditor.id);
+        }
     }).catch(err => {
         if(err) return next(err);
     });
 })
 
 .delete(function (req, res, next) {    
-    res.end('Not implemented yet');
+    return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
 // ======================================================
