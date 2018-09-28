@@ -3,7 +3,7 @@
 var constants = require('../configs/constants.js');
 const network = require('../libs/fabric-lib/food-supply-chain-network.js');
 
-var Party = class {
+var Location = class {
 
     constructor(opts) {
         this.id = opts.id,
@@ -14,7 +14,7 @@ var Party = class {
 
     toString()
     {        
-        return "[ party-id: " + this.id + " , name: " + this.name + 
+        return "[ location-id: " + this.id + " , name: " + this.name + 
             " , objectType: " + this.objectType + " , content: " + this.content + " ]";   
     }
 
@@ -30,9 +30,9 @@ var Party = class {
 
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Party;
+        let objectType = constants.ObjectTypes.Location;
         return network.query('getObject', id, objectType);
     }
 }
 
-module.exports = Party;
+module.exports = Location;

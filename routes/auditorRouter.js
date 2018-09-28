@@ -14,7 +14,7 @@ router.route('/')
 
 .post(function (req, res, next) {
     var newAuditor = new Auditor({
-        id: uuidv1(),
+        id: req.body.id ||uuidv1(),
         objectType: constants.ObjectTypes.Auditor,
         name: req.body.name,
         content: req.body.content
