@@ -28,10 +28,15 @@ var Auditor = class {
         return network.invoke('updateAuditor', this);        
     }
 
-    static find(id)
+    static find(auditorID)
     {
         let objectType = constants.ObjectTypes.Auditor;
-        return network.query('getObject', id, objectType);
+        return network.query('getObject', auditorID, objectType);
+    }
+
+    static findAudits(auditorID)
+    {
+        return network.query('getAuditsOfAuditor', auditorID);
     }
 }
 

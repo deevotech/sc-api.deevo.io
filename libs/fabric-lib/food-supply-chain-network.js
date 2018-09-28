@@ -102,11 +102,15 @@ class FoodSupplyChainNetwork {
 
   query(fcn, id, objectType) {
     
+    let localArgs = [];
+    if(id) localArgs.push(id);
+    if(objectType) localArgs.push(objectType);
+
     var tx_id = this.connection.newTransactionID();
     var requestData = {
       chaincodeId: constants.ChainCodeId,
       fcn: fcn,
-      args: [id, objectType],
+      args: localArgs,
       txId: tx_id
     };
     return this.connection.query(requestData);

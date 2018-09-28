@@ -2,11 +2,14 @@ var uuidv1 = require('uuid/v1');
 var express = require('express');
 var bodyParser = require('body-parser');
 var Auditor = require('../models/auditor.js');
+var AuditAction = require('../models/auditAction.js');
 var constants = require('../configs/constants.js');
 
 var router = express.Router();
 router.use(bodyParser.json());
 
+
+//=============== /api/v1/auditors  ===================
 router.route('/')
 .get(function (req, res, next) {      
     return next(new Error('Out of scope, this action is not implemented yet.'));
@@ -25,7 +28,7 @@ router.route('/')
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Added the auditor : ' + newAuditor.id);        
+            res.end('Added the Auditor : ' + newAuditor.id);        
         }
     }).catch(err => {
         if(err) return next(err);        
@@ -36,8 +39,7 @@ router.route('/')
     return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-// ======================================================
-
+//=============== /api/v1/auditors/auditorId  ==================
 router.route('/:auditorId')
 .get(function (req, res, next) {    
     Auditor.find(req.params.auditorId).then(auditor => {       
@@ -60,7 +62,7 @@ router.route('/:auditorId')
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Updated the auditor : ' + newAuditor.id);
+            res.end('Updated the Auditor : ' + newAuditor.id);
         }
     }).catch(err => {
         if(err) return next(err);
@@ -71,77 +73,78 @@ router.route('/:auditorId')
     return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-// ======================================================
-
-router.route('/:auditorId/actions')
+//=============== /api/v1/auditors/auditorId/auditActions  ==================
+router.route('/:auditorId/auditactions')
 .get(function (req, res, next) {
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        if (err) throw err;
-        res.json(dish.comments);
-    });
+    Auditor.findAudits(req.params.auditorId).then(auditActions => {       
+        res.json(auditActions);
+    }).catch(err => {
+        if(err) return next(err);
+    });    
 })
 
 .post(function (req, res, next) {
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        if (err) throw err;
-        dish.comments.push(req.body);
-        dish.save(function (err, dish) {
-            if (err) throw err;
-            console.log('Updated Comments!');
-            res.json(dish);
-        });
-    });
-})
-
-.delete(function (req, res, next) {
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        if (err) throw err;
-        for (var i = (dish.comments.length - 1); i >= 0; i--) {
-            dish.comments.id(dish.comments[i]._id).remove();
-        }
-        dish.save(function (err, result) {
-            if (err) throw err;
+    var newAuditAction = new AuditAction({
+        id:         req.body.id || uuidv1(),
+        objectType: req.body.objectType || constants.ObjectTypes.AuditAction,
+        time:       req.body.time,
+        auditor:    req.body.auditor,
+        location:   req.body.location,
+        objectId:   req.body.objectId,
+        content:    req.body.content
+    })
+    newAuditAction.create().then(status => {
+        if(status == "SUCCESS")
+        {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Deleted all comments!');
-        });
-    });
+            res.end('Added the AuditAction : ' + newAuditAction.id);
+        }
+    }).catch(err => {
+        if(err) return next(err);        
+    });    
+})
+
+.delete(function (req, res, next) {
+    return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-// ======================================================
-
-router.route('/:auditorId/actions/:actionId')
+//=============== /api/v1/auditors/auditorId/auditActions/auditActionId  ==================
+router.route('/:auditorId/auditactions/:auditActionId')
 .get(function (req, res, next) {
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        if (err) throw err;
-        res.json(dish.comments.id(req.params.commentId));
+    AuditorAction.find(req.params.auditActionId).then(auditAction => {       
+        res.json(auditAction);
+    }).catch(err => {
+        if(err) return next(err);
     });
 })
 
 .put(function (req, res, next) {
-    // We delete the existing commment and insert the updated
-    // comment as a new comment
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        if (err) throw err;
-        dish.comments.id(req.params.commentId).remove();
-        dish.comments.push(req.body);
-        dish.save(function (err, dish) {
-            if (err) throw err;
-            console.log('Updated Comments!');
-            res.json(dish);
-        });
+    var updateAuditorAction = new AuditorAction({
+        id:         req.body.id ||uuidv1(),
+        objectType: req.body.objectType || constants.ObjectTypes.AuditAction,
+        time:       req.body.time,
+        auditor:    req.body.auditor,
+        location:   req.body.location,
+        objectId:   req.body.objectId,
+        content:    req.body.content
+    })
+    updateAuditorAction.update().then(status => {        
+        if(status == "SUCCESS")
+        {
+            res.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Updated the AuditAction : ' + updateAuditorAction.id);
+        }
+    }).catch(err => {
+        if(err) return next(err);
     });
 })
 
 .delete(function (req, res, next) {
-    Dishes.findById(req.params.dishId, function (err, dish) {
-        dish.comments.id(req.params.commentId).remove();
-        dish.save(function (err, resp) {
-            if (err) throw err;
-            res.json(resp);
-        });
-    });
+    return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
 module.exports = router;
