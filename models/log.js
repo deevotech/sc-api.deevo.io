@@ -12,6 +12,7 @@ var Log = class {
         this.ref = opts.ref;
         this.cte = opts.cte;
         this.content = opts.content;
+        this.supplychain_id = opts.supplychain_id;
         this.asset = opts.asset;
         this.product = opts.product;
         this.location = opts.location;

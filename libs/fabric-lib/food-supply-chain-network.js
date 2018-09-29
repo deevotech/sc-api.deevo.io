@@ -20,6 +20,8 @@ class FoodSupplyChainNetwork {
 	*/
   _cleanUpTLSKeys()
   {
+    return Promise.resolve();
+    
     let client_config = this.connection.getClientConfig();
     let store_path = client_config.credentialStore.path;
     let crypto_path = client_config.credentialStore.cryptoStore.path;

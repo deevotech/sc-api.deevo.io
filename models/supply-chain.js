@@ -3,7 +3,7 @@
 var constants = require('../configs/constants.js');
 const network = require('../libs/fabric-lib/food-supply-chain-network.js');
 
-var Product = class {
+var Supplychain = class {
 
     constructor(opts) {
         this.id = opts.id,
@@ -14,7 +14,7 @@ var Product = class {
 
     toString()
     {        
-        return "[ Product-id: " + this.id + " , name: " + this.name + 
+        return "[ Supplychain-id: " + this.id + " , name: " + this.name + 
             " , objectType: " + this.objectType + " , content: " + this.content + " ]";   
     }
 
@@ -30,14 +30,14 @@ var Product = class {
 
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Product;
+        let objectType = constants.ObjectTypes.Supplychain;
         return network.query('getObject', id, objectType);
     }
 
-    static findLogs(productId)
+    static findLogs(supplychainId)
     {
-        return network.query('getLogsOfProduct', productId);
+        return network.query('getLogsOfSupplychain', supplychainId);
     }
 }
 
-module.exports = Product;
+module.exports = Supplychain;

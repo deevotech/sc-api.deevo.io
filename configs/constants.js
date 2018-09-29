@@ -18,6 +18,7 @@ module.exports.ObjectTypes.Product = 'product';
 module.exports.ObjectTypes.Log = 'log';
 module.exports.ObjectTypes.Auditor = 'auditor';
 module.exports.ObjectTypes.AuditAction = 'auditAction';
+module.exports.ObjectTypes.Supplychain = 'supplychain';
 
 module.exports.ChannelName = 'baotestchannel'
 module.exports.ChainCodeId = 'food_supplychain'

@@ -88,7 +88,7 @@ router.route('/:auditorId/auditactions')
         id:         req.body.id || uuidv1(),
         objectType: req.body.objectType || constants.ObjectTypes.AuditAction,
         time:       req.body.time,
-        auditor:    req.body.auditor,
+        auditor:    req.body.auditor || req.params.auditorId,
         location:   req.body.location,
         objectId:   req.body.objectId,
         content:    req.body.content

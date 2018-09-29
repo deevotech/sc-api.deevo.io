@@ -19,6 +19,20 @@ router.route('/')
         auditors: req.body.auditors
     };
 
+    newOrgData.traceable.forEach(function(item) {
+        if(item.content)
+        {
+            item.content = JSON.stringify(item.content);
+        }
+      });
+
+    newOrgData.auditors.forEach(function(item) {
+        if(item.content)
+        {
+            item.content = JSON.stringify(item.content);
+        }
+    });
+
     Org.create(newOrgData).then(status => {        
         if(status == "SUCCESS")
         {

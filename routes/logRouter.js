@@ -13,16 +13,29 @@ router.route('/')
 })
 
 .post(function (req, res, next) {
+
+    let log = undefined;
+    if ( (req.body instanceof Array) && req.body.length >0 ) {
+        log = req.body[0]
+    }else
+    {
+        log = req.body;
+    }
+
+    if(log.content)
+        log.content = JSON.stringify(log.content);
+     
     var newLog = new Log({
-        id:         req.body.id ||uuidv1(),
-        objectType: req.body.objectType || constants.ObjectTypes.Log,
-        time:       req.body.time,
-        ref:        req.body.ref,
-        cte:        req.body.cte,
-        content:    req.body.content,
-        asset:      req.body.asset,
-        product:    req.body.product,
-        location:   req.body.location
+        id:         log.id ||uuidv1(),
+        objectType: log.objectType || constants.ObjectTypes.Log,
+        time:       log.time,
+        ref:        log.ref,
+        cte:        log.cte,
+        content:    log.content,
+        supplychain_id : req.body.supplychain_id,
+        asset:      log.asset,
+        product:    log.product,
+        location:   log.location
     })
     newLog.create().then(status => {        
         if(status == "SUCCESS")
@@ -60,10 +73,15 @@ router.route('/:logId')
         ref:        req.body.ref,
         cte:        req.body.cte,
         content:    req.body.content,
+        supplychain_id: req.body.supplychain_id,
         asset:      req.body.asset,
         product:    req.body.product,
         location:   req.body.location
     })
+
+    if(newLog.content)
+    newLog.content = JSON.stringify(newLog.content);
+
     newLog.update().then(status => {        
         if(status == "SUCCESS")
         {

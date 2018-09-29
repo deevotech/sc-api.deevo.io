@@ -1,32 +1,33 @@
 var uuidv1 = require('uuid/v1');
 var express = require('express');
 var bodyParser = require('body-parser');
-var Product = require('../models/product.js');
+var Supplychain = require('../models/supply-chain.js');
+var Log = require('../models/log.js');
 var constants = require('../configs/constants.js');
 
 var router = express.Router();
 router.use(bodyParser.json());
 
-//=============== /api/v1/products  ===================
+//=============== /api/v1/supply-chains  ===================
 router.route('/')
 .get(function (req, res, next) {      
     return next(new Error('Out of scope, this action is not implemented yet.'));
 })
 
 .post(function (req, res, next) {
-    var newProduct = new Product({
+    var newSupplychain = new Supplychain({
         id: req.body.id || uuidv1(),
-        objectType: constants.ObjectTypes.Product,
+        objectType: constants.ObjectTypes.Supplychain,
         name: req.body.name,
         content: req.body.content
     })
-    newProduct.create().then(status => {        
+    newSupplychain.create().then(status => {        
         if(status == "SUCCESS")
         {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Added the Product : ' + newProduct.id);        
+            res.end('Added the Supplychain : ' + newSupplychain.id);        
         }
     }).catch(err => {
         if(err) return next(err);        
@@ -37,30 +38,30 @@ router.route('/')
     return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-//=============== /api/v1/products/productId  ===================
-router.route('/:productId')
+//=============== /api/v1/supply-chains/supplychainId  ===================
+router.route('/:supplychainId')
 .get(function (req, res, next) {    
-    Product.find(req.params.productId).then(Product => {       
-        res.json(Product);
+    Supplychain.find(req.params.supplychainId).then(Supplychain => {       
+        res.json(Supplychain);
     }).catch(err => {
         if(err) return next(err);
     });    
 })
 
 .put(function (req, res, next) {
-    var updateProduct = new Product({
-        id: req.params.productId,
-        objectType: req.body.objectType || constants.ObjectTypes.Product,
+    var updateSupplychain = new Supplychain({
+        id: req.params.supplychainId,
+        objectType: req.body.objectType || constants.ObjectTypes.Supplychain,
         name: req.body.name,
         content: req.body.content
     })
-    updateProduct.update().then(status => {        
+    updateSupplychain.update().then(status => {        
         if(status == "SUCCESS")
         {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Updated the Product : ' + updateProduct.id);
+            res.end('Updated the Supplychain : ' + updateSupplychain.id);
         }
     }).catch(err => {
         if(err) return next(err);
@@ -71,10 +72,10 @@ router.route('/:productId')
     return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-//=============== /api/v1/products/productId/logs  ===================
-router.route('/:productId/logs')
+//=============== /api/v1/supply-chains/supplychainId/logs  ===================
+router.route('/:supplychainId/logs')
 .get(function (req, res, next) {
-    Product.findLogs(req.params.productId).then(Logs => {       
+    Supplychain.findLogs(req.params.supplychainId).then(Logs => {       
         res.json(Logs);
     }).catch(err => {
         if(err) return next(err);
