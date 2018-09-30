@@ -2,7 +2,7 @@ var uuidv1 = require('uuid/v1');
 var express = require('express');
 var bodyParser = require('body-parser');
 var Asset = require('../models/asset.js');
-var constants = require('../configs/constants.js');
+var constants = require('../utils/constants.js');
 
 var router = express.Router();
 router.use(bodyParser.json());

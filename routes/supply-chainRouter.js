@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var Supplychain = require('../models/supply-chain.js');
 var Log = require('../models/log.js');
-var constants = require('../configs/constants.js');
+var constants = require('../utils/constants.js');
 
 var router = express.Router();
 router.use(bodyParser.json());

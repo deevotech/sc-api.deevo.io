@@ -6,7 +6,7 @@ var connectionProfilePath = path.join(__dirname, '../../configs/fabric-network-c
 const CONFIG = fs.readFileSync(connectionProfilePath, 'utf8')
 var eventhubs = []; 
 
-var constants = require('../../configs/constants.js');
+var constants = require('../../utils/constants.js');
 
 class FBClient extends FabricClient {
 
@@ -39,8 +39,8 @@ class FBClient extends FabricClient {
             var all_proposal_good = true;
             var err_found = null;
 
-            // check if the number of Proposal Responses is 2
-            all_proposal_good = proposalResponses.length === 2;
+            // check if the number of Proposal Responses is 5
+            all_proposal_good = proposalResponses.length === 5;
 
             // check if all Proposal Responses status are OK and valided digital signature
             for(var i in proposalResponses) {

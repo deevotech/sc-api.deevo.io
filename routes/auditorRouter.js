@@ -3,7 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var Auditor = require('../models/auditor.js');
 var AuditAction = require('../models/auditAction.js');
-var constants = require('../configs/constants.js');
+var constants = require('../utils/constants.js');
 
 var router = express.Router();
 router.use(bodyParser.json());

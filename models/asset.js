@@ -1,6 +1,6 @@
 'use strict';
 
-var constants = require('../configs/constants.js');
+var constants = require('../utils/constants.js');
 const network = require('../libs/fabric-lib/food-supply-chain-network.js');
 
 var Asset = class {

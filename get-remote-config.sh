@@ -33,7 +33,9 @@ TMP_CONFIG_PATH=${t}
 KEY_PATH=${k}
 ORGS=${g}
 mkdir -p ${CONFIG_PATH}/crypto-config
+mkdir -p ${CONFIG_PATH}/fabric-network-config
 rm -rf ${CONFIG_PATH}/crypto-config/*
+rm -rf ${CONFIG_PATH}/fabric-network-config/*
 mkdir -p ${TMP_CONFIG_PATH}
 rm -rf ${TMP_CONFIG_PATH}/*
 echo "get from server ${IP}..."
@@ -108,6 +110,8 @@ for org in $ORGS  ;
 do
     echo "  ${org}:
     mspid: ${org}MSP
+    peers: 
+      - peer0.${org}.deevo.com
     certificateAuthorities:
       - rca.${org}.deevo.com
     adminPrivateKey:

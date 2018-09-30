@@ -6,7 +6,7 @@
         "ref":        [],
         "cte":        "Plant",        
         "asset":      "32c87f9d-Device AAAAA",
-        "supplychain": "c7701362-Supply Chain FOOD BBBBB",
+        "supplychain_id": "c7701362-Supply Chain FOOD BBBBB",
         "location":   "0692d81c-Zone AAAAA",
         "product":    "94ccaa26-Tree AAAAA",        
         "content":    {
@@ -37,7 +37,7 @@
         "ref":        ["ccaaf20a-Grow-Tree AAAAA"],
         "cte":        "Harvest",        
         "asset":      "32c87f9d-Device AAAAA",
-        "supplychain": "c7701362-Supply Chain FOOD BBBBB",
+        "supplychain_id": "c7701362-Supply Chain FOOD BBBBB",
         "location":   "0692d81c-Zone AAAAA",
         "product":    "48310142-Fresh Fruit BBBBB",        
         "content":    {

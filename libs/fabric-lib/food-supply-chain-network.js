@@ -1,6 +1,6 @@
 var fsx = require('fs-extra');
 var fabricClient = require('./fabric-client');
-var constants = require('../../configs/constants.js');
+var constants = require('../../utils/constants.js');
 
 /**
 * A network to wrap the connection/client object to interact with HLF network. 	 	 
