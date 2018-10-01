@@ -7,7 +7,7 @@ var Asset = class {
 
     constructor(opts) {
         this.id = opts.id,
-        this.objectType = opts.objectType,
+        this.objectType = opts.objectType  || constants.ObjectTypes.Asset,
         this.name = opts.name,
         this.content = opts.content;
     }

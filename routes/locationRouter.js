@@ -49,8 +49,7 @@ router.route('/:locationId')
 
 .put(function (req, res, next) {
     var updateLocation = new Location({
-        id: req.params.LocationId,
-        objectType: req.body.objectType || constants.ObjectTypes.Location,
+        id: req.params.locationId,
         name: req.body.name,
         content: req.body.content
     })

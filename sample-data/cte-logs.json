@@ -28,8 +28,7 @@
             "name" : "Grow Tree AAAAA",
             "humidity":"49%"
         }
-    }
-    ,
+    },
     {
         "objectType": "log",
         "id": "b14bf9df-Harvest-Fresh Fruit BBBBB",

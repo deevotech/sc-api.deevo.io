@@ -73,8 +73,8 @@ router.route('/:auditorId')
     return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-//=============== /api/v1/auditors/auditorId/auditActions  ==================
-router.route('/:auditorId/auditactions')
+//=============== /api/v1/auditors/auditorId/audit-actions  ==================
+router.route('/:auditorId/audit-actions')
 .get(function (req, res, next) {
     Auditor.findAudits(req.params.auditorId).then(auditActions => {       
         res.json(auditActions);
@@ -110,10 +110,10 @@ router.route('/:auditorId/auditactions')
     return next(new Error('Out of scope, this action is not implemented yet.'));
 });
 
-//=============== /api/v1/auditors/auditorId/auditActions/auditActionId  ==================
-router.route('/:auditorId/auditactions/:auditActionId')
+//=============== /api/v1/auditors/auditorId/audit-Actions/auditActionId  ==================
+router.route('/:auditorId/audit-actions/:auditActionId')
 .get(function (req, res, next) {
-    AuditorAction.find(req.params.auditActionId).then(auditAction => {       
+    AuditAction.find(req.params.auditActionId).then(auditAction => {       
         res.json(auditAction);
     }).catch(err => {
         if(err) return next(err);
@@ -121,22 +121,21 @@ router.route('/:auditorId/auditactions/:auditActionId')
 })
 
 .put(function (req, res, next) {
-    var updateAuditorAction = new AuditorAction({
-        id:         req.body.id ||uuidv1(),
-        objectType: req.body.objectType || constants.ObjectTypes.AuditAction,
+    var updateAuditAction = new AuditAction({
+        id:         req.params.auditActionId ||uuidv1(),        
         time:       req.body.time,
         auditor:    req.body.auditor,
         location:   req.body.location,
         objectId:   req.body.objectId,
         content:    req.body.content
     })
-    updateAuditorAction.update().then(status => {        
+    updateAuditAction.update().then(status => {        
         if(status == "SUCCESS")
         {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Updated the AuditAction : ' + updateAuditorAction.id);
+            res.end('Updated the AuditAction : ' + updateAuditAction.id);
         }
     }).catch(err => {
         if(err) return next(err);

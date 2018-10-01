@@ -14,36 +14,63 @@ router.route('/')
 
 .post(function (req, res, next) {
 
-    let newOrgData = {
-        traceable: req.body.traceables,
-        auditors: req.body.auditors
-    };
+    if(req.body.traceables)
+    {
+        let newOrgData = {
+            traceable: req.body.traceables,
+            auditors: req.body.auditors
+        };
 
-    newOrgData.traceable.forEach(function(item) {
-        if(item.content)
-        {
-            item.content = JSON.stringify(item.content);
-        }
-      });
+        newOrgData.traceable.forEach(function(item) {
+            if(item.content)
+            {
+                item.content = JSON.stringify(item.content);
+            }
+        });
 
-    newOrgData.auditors.forEach(function(item) {
-        if(item.content)
-        {
-            item.content = JSON.stringify(item.content);
-        }
-    });
+        newOrgData.auditors.forEach(function(item) {
+            if(item.content)
+            {
+                item.content = JSON.stringify(item.content);
+            }
+        });
 
-    Org.create(newOrgData).then(status => {        
-        if(status == "SUCCESS")
-        {
-            res.writeHead(200, {
-                'Content-Type': 'text/plain'
-            });
-            res.end('Added the org. : ' + newOrgData.traceable[0].id);        
-        }
-    }).catch(err => {
-        if(err) return next(err);        
-    });    
+        Org.create(newOrgData).then(status => {        
+            if(status == "SUCCESS")
+            {
+                res.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Added the org. : ' + newOrgData.traceable[0].id);        
+            }
+        }).catch(err => {
+            if(err) return next(err);        
+        });    
+    }
+    else
+    {
+        var newOrg = new Org({
+            id: req.body.id || uuidv1(),
+            objectType: constants.ObjectTypes.Org,
+            name: req.body.name,
+            content: req.body.content
+        })
+
+        if(newOrg.content)
+            newOrg.content = JSON.stringify(newOrg.content);
+
+        newOrg.create().then(status => {        
+            if(status == "SUCCESS")
+            {
+                res.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Added the Org : ' + newOrg.id);        
+            }
+        }).catch(err => {
+            if(err) return next(err);        
+        });
+    }
 })
 
 .delete(function (req, res, next) {
@@ -63,8 +90,7 @@ router.route('/:orgId')
 
 .put(function (req, res, next) {
     var org = new Org({
-        id: req.params.orgId,
-        objectType: req.body.objectType,
+        id: req.params.orgId,        
         name: req.body.name,
         content: req.body.content
     })

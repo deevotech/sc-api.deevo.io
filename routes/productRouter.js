@@ -49,8 +49,7 @@ router.route('/:productId')
 
 .put(function (req, res, next) {
     var updateProduct = new Product({
-        id: req.params.productId,
-        objectType: req.body.objectType || constants.ObjectTypes.Product,
+        id: req.params.productId,        
         name: req.body.name,
         content: req.body.content
     })

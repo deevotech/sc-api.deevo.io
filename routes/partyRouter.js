@@ -49,8 +49,7 @@ router.route('/:partyId')
 
 .put(function (req, res, next) {
     var updateParty = new Party({
-        id: req.params.partyId,
-        objectType: req.body.objectType || constants.ObjectTypes.Party,
+        id: req.params.partyId,        
         name: req.body.name,
         content: req.body.content
     })

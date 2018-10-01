@@ -7,7 +7,7 @@ var AuditAction = class {
 
     constructor(opt) {
         this.id = opt.id;
-        this.objectType = opt.objectType;        
+        this.objectType = opt.objectType || constants.ObjectTypes.AuditAction;        
         this.time = opt.time;
         this.auditor = opt.auditor;
         this.location = opt.location;

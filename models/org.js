@@ -30,6 +30,11 @@ var Org = class {
             return network.invoke('initOrgData', orgData);
     }
 
+    create()
+    {
+        return network.invoke('createTraceable', this);
+    }
+
     update()
     {
         return network.invoke('updateTraceable', this);        

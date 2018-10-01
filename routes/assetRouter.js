@@ -49,8 +49,7 @@ router.route('/:assetId')
 
 .put(function (req, res, next) {
     var updateAsset = new Asset({
-        id: req.params.assetId,
-        objectType: req.body.objectType || constants.ObjectTypes.Asset,
+        id: req.params.assetId,        
         name: req.body.name,
         content: req.body.content
     })

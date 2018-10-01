@@ -7,7 +7,7 @@ var Supplychain = class {
 
     constructor(opts) {
         this.id = opts.id,
-        this.objectType = opts.objectType,
+        this.objectType = opts.objectType || constants.ObjectTypes.Supplychain,
         this.name = opts.name,
         this.content = opts.content;
     }

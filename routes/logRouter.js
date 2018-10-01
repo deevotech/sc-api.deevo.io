@@ -27,7 +27,7 @@ router.route('/')
      
     var newLog = new Log({
         id:         log.id ||uuidv1(),
-        objectType: log.objectType || constants.ObjectTypes.Log,
+        objectType: constants.ObjectTypes.Log,
         time:       log.time,
         ref:        log.ref,
         cte:        log.cte,
@@ -67,8 +67,7 @@ router.route('/:logId')
 
 .put(function (req, res, next) {
     var newLog = new Log({
-        id:         req.params.logId,
-        objectType: req.body.objectType || constants.ObjectTypes.Log,
+        id:         req.params.logId,        
         time:       req.body.time,
         ref:        req.body.ref,
         cte:        req.body.cte,

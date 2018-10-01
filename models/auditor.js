@@ -7,7 +7,7 @@ var Auditor = class {
 
     constructor(opt) {
         this.id = opt.id;
-        this.objectType = opt.objectType;        
+        this.objectType = opt.objectType || constants.ObjectTypes.Auditor;        
         this.name = opt.name;
         this.content = opt.content;
     }

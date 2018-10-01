@@ -7,7 +7,7 @@ var Log = class {
 
     constructor(opts) {
         this.id = opts.id;
-        this.objectType = opts.objectType;        
+        this.objectType = opts.objectType || constants.ObjectTypes.Log;        
         this.time = opts.time;
         this.ref = opts.ref;
         this.cte = opts.cte;
