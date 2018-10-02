@@ -4,20 +4,20 @@ version: "1.0"
 
 # Client section is for NodeJS SDK. 
 client:
-  organization: org1 # The org that this app instance belong to
+  organization: org2 # The org that this app instance belong to
   # set connection timeouts for the peer and orderer for the client
   connection:
     timeout:
       peer:
         # the timeout in seconds to be used on requests to a peer,
-        # for example sendTransactionProposal
+        # for example 'sendTransactionProposal'
         endorser: 120
         # the timeout in seconds to be used by applications when waiting for an
         # event to occur. This time should be used in a javascript timer object
         # that will cancel the event registration with the event hub instance.
         eventHub: 60
         # the timeout in seconds to be used when setting up the connection
-        # with the peers event hub. If the peer does not acknowledge the
+        # with the peer's event hub. If the peer does not acknowledge the
         # connection within the time, the application will be notified over the
         # error callback if provided.
         eventReg: 30
@@ -25,9 +25,9 @@ client:
       # for example
       orderer: 30
   credentialStore: # KVS of Client instance
-    path: "/tmp/hfc-kvs/org1"
+    path: "/tmp/hfc-kvs/org2"
     cryptoStore: # Cryptosuite store of Client instance
-      path: "/tmp/hfc-cvs/org1"
+      path: "/tmp/hfc-cvs/org2"
 
 # Optinal. But most app would have this so that channle objects can be constructed based on this section.
 channels:
@@ -35,7 +35,6 @@ channels:
     orderers:
       - orderer0.org0.deevo.com
     peers:
-
       peer0.org1.deevo.com:
         endorsingPeer: true
         chaincodeQuery: true
@@ -60,12 +59,13 @@ channels:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
-        eventSource: true
+        eventSource: true    
+    chaincodes:
+      - food_supplychain:v0
+
 organizations:
   org0:
     mspid: org0MSP
-    peers: 
-      - peer0.org0.deevo.com
     certificateAuthorities:
       - rca.org0.deevo.com
     adminPrivateKey:
@@ -74,7 +74,7 @@ organizations:
       path: configs/crypto-config/orgs/org0/admin/msp/signcerts/cert.pem
   org1:
     mspid: org1MSP
-    peers: 
+    peers:
       - peer0.org1.deevo.com
     certificateAuthorities:
       - rca.org1.deevo.com
@@ -84,7 +84,7 @@ organizations:
       path: configs/crypto-config/orgs/org1/admin/msp/signcerts/cert.pem
   org2:
     mspid: org2MSP
-    peers: 
+    peers:
       - peer0.org2.deevo.com
     certificateAuthorities:
       - rca.org2.deevo.com
@@ -94,7 +94,7 @@ organizations:
       path: configs/crypto-config/orgs/org2/admin/msp/signcerts/cert.pem
   org3:
     mspid: org3MSP
-    peers: 
+    peers:
       - peer0.org3.deevo.com
     certificateAuthorities:
       - rca.org3.deevo.com
@@ -104,7 +104,7 @@ organizations:
       path: configs/crypto-config/orgs/org3/admin/msp/signcerts/cert.pem
   org4:
     mspid: org4MSP
-    peers: 
+    peers:
       - peer0.org4.deevo.com
     certificateAuthorities:
       - rca.org4.deevo.com
@@ -114,7 +114,7 @@ organizations:
       path: configs/crypto-config/orgs/org4/admin/msp/signcerts/cert.pem
   org5:
     mspid: org5MSP
-    peers: 
+    peers:
       - peer0.org5.deevo.com
     certificateAuthorities:
       - rca.org5.deevo.com
@@ -134,6 +134,7 @@ orderers:
       grpc-max-receive-message-length: 10485760
     tlsCACerts:
       path: configs/crypto-config/orderer/msp/tlscacerts/rca-org0-deevo-com-7054.pem
+
 peers:
   peer0.org1.deevo.com:
     url: grpcs://peer0.org1.deevo.com:7051
