@@ -1,7 +1,7 @@
 # supply-chain-service
 Food supply chain RESTful API Service (NodeJS) is designed and implemented with Domain-Driven Design (DDD).
 
-# to start app:
+# To start app:
 1. clone this repo from github
 2. cd to supply-chain-service
 3. run: ./get-remote-config.sh with appropriate parameters
