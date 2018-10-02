@@ -75,8 +75,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(port, hostname, function () {
-  console.log(`API Server is running at http://${hostname}:${port}/`);
-});
+//app.listen(port, hostname, function () {
+//  console.log(`API Server is running at http://${hostname}:${port}/`);
+//});
 
 module.exports = app;
