@@ -43,22 +43,22 @@ channels:
         eventSource: true
       peer0.org2.deevo.com:
         endorsingPeer: true
-        chaincodeQuery: false
+        chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
       peer0.org3.deevo.com:
         endorsingPeer: true
-        chaincodeQuery: false
+        chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
       peer0.org4.deevo.com:
         endorsingPeer: true
-        chaincodeQuery: false
+        chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
       peer0.org5.deevo.com:
         endorsingPeer: true
-        chaincodeQuery: false
+        chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 organizations:
