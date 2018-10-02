@@ -108,7 +108,7 @@ csr:
       O: Hyperledger
       OU: Fabric
   hosts:
-    - ip-172-31-30-107
+    - ip-172-31-21-211
 
 #############################################################################
 #  Registration section used to register a new identity with fabric-ca server

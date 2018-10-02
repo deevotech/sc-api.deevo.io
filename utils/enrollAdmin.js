@@ -1,7 +1,7 @@
 'use strict';
 
 var fsx = require('fs-extra');
-var fabricClient = require('./libs/fabric-lib/fabric-client');
+var fabricClient = require('../libs/fabric-lib/fabric-client');
 var connection = fabricClient;
 var caService;
 var adminUser;
@@ -18,20 +18,20 @@ connection.initCredentialStores().then(() =>
 
   // tls-enrollment
   caService = connection.getCertificateAuthority();
-  return connection.getUserContext('admin-org1', true);
+  return connection.getUserContext('admin-org2', true);
 
 }).then((user) => {
 
   if (user) 
   {
-    throw new Error("admin-org1 user already exists");
+    throw new Error("admin-org2 user already exists");
   } 
   else 
   {
     return caService.enroll(
     {
-      enrollmentID: 'admin-org1',
-      enrollmentSecret: 'admin-org1pw',
+      enrollmentID: 'admin-org2',
+      enrollmentSecret: 'admin-org2pw',
       attr_reqs: [
           // { name: "hf.Registrar.Roles" },
           // { name: "hf.Registrar.Attributes" }
@@ -41,8 +41,8 @@ connection.initCredentialStores().then(() =>
       console.log('Successfully enrolled admin user "admin"');
       return connection.createUser(
       {
-          username: 'admin-org1',
-          mspid: 'org1MSP',
+          username: 'admin-org2',
+          mspid: 'org2MSP',
           cryptoContent: { privateKeyPEM: enrollment.key.toBytes(), signedCertPEM: enrollment.certificate }
       });
 

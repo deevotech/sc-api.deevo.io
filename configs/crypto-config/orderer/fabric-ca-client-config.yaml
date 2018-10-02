@@ -99,7 +99,7 @@ tls:
 #
 #############################################################################
 csr:
-  cn: rca-org0-admin
+  cn: orderer0-org0
   serialnumber:
   names:
     - C: US
@@ -108,7 +108,7 @@ csr:
       O: Hyperledger
       OU: Fabric
   hosts:
-    - ip-172-31-17-148
+    - ip-172-31-28-66
 
 #############################################################################
 #  Registration section used to register a new identity with fabric-ca server
