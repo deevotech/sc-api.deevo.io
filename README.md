@@ -4,8 +4,8 @@ Food supply chain RESTful API Service (NodeJS) is designed and implemented with 
 # To start app:
 1. clone this repo from github
 2. cd to supply-chain-service
-3. run: ./get-remote-config.sh with appropriate parameters
-4. run: node enrollAdmin.js
+3. run: utils/get-remote-config.sh with appropriate parameters
+4. run: node utils/enrollAdmin.js
 5. run: npm install
 6. run: npm start
 

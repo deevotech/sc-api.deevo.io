@@ -9,8 +9,6 @@ module.exports = {
     tempdir: tempdir        
 };
 
-module.exports.Network = "test-net"
-
 module.exports.ObjectTypes = {};
 module.exports.ObjectTypes.Org = 'org';
 module.exports.ObjectTypes.Party = 'party';
