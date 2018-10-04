@@ -39,6 +39,22 @@ var Log = class {
         let objectType = constants.ObjectTypes.Log;
         return network.query('getObject', id, objectType);
     }
+
+    static getAll()
+    {        
+        let queryString = "{\"selector\":{\"objectType\":\"log\"}}";
+        return network.query('getQueryResultForQueryString', queryString);
+    }
+
+    static sortByTimestampDesc(obj1, obj2)
+    {
+        return obj2.Record.time - obj1.Record.time;
+    }
+
+    static sortByTimestampAsc(obj1, obj2)
+    {
+        return obj1.Record.time - obj2.Record.time;
+    }
 }
 
 module.exports = Log;

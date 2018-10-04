@@ -9,7 +9,12 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(function (req, res, next) {      
-    return next(new Error('Out of scope, this action is not implemented yet.'));
+    Log.getAll().then(logs => {       
+        logs.sort(Log.sortByTimestampDesc);
+        res.json(logs);
+    }).catch(err => {
+        if(err) return next(err);
+    }); 
 })
 
 .post(function (req, res, next) {
