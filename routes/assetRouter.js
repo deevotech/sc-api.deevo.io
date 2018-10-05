@@ -16,6 +16,7 @@ router.route('/')
     var newAsset = new Asset({
         id: req.body.id || uuidv1(),
         objectType: constants.ObjectTypes.Asset,
+        parent: req.body.parent,
         name: req.body.name,
         content: req.body.content
     })
@@ -49,7 +50,8 @@ router.route('/:assetId')
 
 .put(function (req, res, next) {
     var updateAsset = new Asset({
-        id: req.params.assetId,        
+        id: req.params.assetId,    
+        parent: req.body.parent,    
         name: req.body.name,
         content: req.body.content
     })

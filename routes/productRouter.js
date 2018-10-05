@@ -17,6 +17,7 @@ router.route('/')
     var newProduct = new Product({
         id: req.body.id || uuidv1(),
         objectType: constants.ObjectTypes.Product,
+        parent: req.body.parent,
         name: req.body.name,
         content: req.body.content
     })
@@ -50,6 +51,7 @@ router.route('/:productId')
 .put(function (req, res, next) {
     var updateProduct = new Product({
         id: req.params.productId,        
+        parent: req.body.parent,
         name: req.body.name,
         content: req.body.content
     })

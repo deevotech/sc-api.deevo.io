@@ -5,11 +5,12 @@ const network = require('../libs/fabric-lib/food-supply-chain-network');
 
 var Auditor = class {
 
-    constructor(opt) {
-        this.id = opt.id;
-        this.objectType = opt.objectType || constants.ObjectTypes.Auditor;        
-        this.name = opt.name;
-        this.content = opt.content;
+    constructor(opts) {
+        this.id = opts.id;
+        this.objectType = opts.objectType || constants.ObjectTypes.Auditor;        
+        this.name = opts.name;
+        this.content = (opts.content && opts.content instanceof Object) ? 
+                        JSON.stringify(opts.content) : opts.content;
     }
 
     toString()

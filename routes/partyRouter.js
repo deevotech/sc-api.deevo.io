@@ -16,6 +16,7 @@ router.route('/')
     var newParty = new Party({
         id: req.body.id || uuidv1(),
         objectType: constants.ObjectTypes.Party,
+        parent: req.body.parent,
         name: req.body.name,
         content: req.body.content
     })
@@ -50,6 +51,7 @@ router.route('/:partyId')
 .put(function (req, res, next) {
     var updateParty = new Party({
         id: req.params.partyId,        
+        parent: req.body.parent,
         name: req.body.name,
         content: req.body.content
     })

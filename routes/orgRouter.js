@@ -52,12 +52,10 @@ router.route('/')
         var newOrg = new Org({
             id: req.body.id || uuidv1(),
             objectType: constants.ObjectTypes.Org,
+            parent : req.body.parent,
             name: req.body.name,
             content: req.body.content
         })
-
-        if(newOrg.content)
-            newOrg.content = JSON.stringify(newOrg.content);
 
         newOrg.create().then(status => {        
             if(status == "SUCCESS")
@@ -91,6 +89,7 @@ router.route('/:orgId')
 .put(function (req, res, next) {
     var org = new Org({
         id: req.params.orgId,        
+        parent : req.body.parent,
         name: req.body.name,
         content: req.body.content
     })

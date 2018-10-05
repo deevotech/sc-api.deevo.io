@@ -16,6 +16,7 @@ router.route('/')
     var newLocation = new Location({
         id: req.body.id || uuidv1(),
         objectType: constants.ObjectTypes.Location,
+        parent: req.body.parent,
         name: req.body.name,
         content: req.body.content
     })
@@ -50,7 +51,8 @@ router.route('/:locationId')
 .put(function (req, res, next) {
     var updateLocation = new Location({
         id: req.params.locationId,
-        name: req.body.name,
+        parent: req.body.parent,
+        name: req.body.name,        
         content: req.body.content
     })
     updateLocation.update().then(status => {        

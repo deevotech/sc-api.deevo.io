@@ -8,8 +8,10 @@ var Org = class {
     constructor(opts) {
         this.id = opts.id,
         this.objectType = opts.objectType || constants.ObjectTypes.Org,
+        this.parent = opts.parent,
         this.name = opts.name,
-        this.content = opts.content;
+        this.content = (opts.content && opts.content instanceof Object) ? 
+                        JSON.stringify(opts.content) : opts.content;
     }
 
     toString()
