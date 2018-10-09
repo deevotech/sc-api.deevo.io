@@ -42,7 +42,17 @@ router.route('/')
 router.route('/:supplychainId')
 .get(function (req, res, next) {    
     Supplychain.find(req.params.supplychainId).then(Supplychain => {       
-        res.json(Supplychain);
+        if(!Supplychain)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.supplychainId);
+        } 
+        else
+        {
+            res.json(Supplychain);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    

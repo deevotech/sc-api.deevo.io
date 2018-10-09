@@ -191,6 +191,11 @@ class FBClient extends FabricClient {
                         return Promise.reject(new Error('JSON.parse() failed with execption: ' + e));
                     }
                 }
+                else if(response_payloads[0].code == 2)
+                {
+                    // return not found object
+                    return Promise.resolve(null);
+                }
                 else
                 {
                     return Promise.reject(new Error(response_payloads[0]));

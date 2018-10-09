@@ -41,8 +41,18 @@ router.route('/')
 
 router.route('/:locationId')
 .get(function (req, res, next) {    
-    Location.find(req.params.locationId).then(location => {       
-        res.json(location);
+    Location.find(req.params.locationId).then(location => {      
+        if(!location)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.locationId);
+        } 
+        else 
+        { 
+            res.json(location);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    

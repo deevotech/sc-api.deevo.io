@@ -64,7 +64,17 @@ router.route('/')
 router.route('/:logId')
 .get(function (req, res, next) {    
     Log.find(req.params.logId).then(Log => {       
-        res.json(Log);
+        if(!Log)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.logId);
+        } 
+        else
+        {
+            res.json(Log);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    

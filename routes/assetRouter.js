@@ -42,7 +42,17 @@ router.route('/')
 router.route('/:assetId')
 .get(function (req, res, next) {    
     Asset.find(req.params.assetId).then(Asset => {       
-        res.json(Asset);
+        if(!Asset)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.assetId);
+        } 
+        else 
+        {
+            res.json(Asset);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    

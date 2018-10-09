@@ -79,8 +79,18 @@ router.route('/')
 
 router.route('/:orgId')
 .get(function (req, res, next) {    
-    Org.find(req.params.orgId).then(org => {       
-        res.json(org);
+    Org.find(req.params.orgId).then(org => {   
+        if(!org)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.orgId);
+        } 
+        else 
+        {   
+            res.json(org);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    

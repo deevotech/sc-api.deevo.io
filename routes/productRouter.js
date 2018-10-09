@@ -42,7 +42,17 @@ router.route('/')
 router.route('/:productId')
 .get(function (req, res, next) {    
     Product.find(req.params.productId).then(Product => {       
-        res.json(Product);
+        if(!Product)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.productId);
+        } 
+        else 
+        {
+            res.json(Product);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    
