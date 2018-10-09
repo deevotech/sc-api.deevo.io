@@ -36,7 +36,7 @@ mkdir -p ${CONFIG_PATH}/crypto-config
 mkdir -p ${CONFIG_PATH}/fabric-network-config
 rm -rf ${CONFIG_PATH}/crypto-config/*
 rm -rf ${CONFIG_PATH}/fabric-network-config/*
-mkdir -p ${TMP_CONFIG_PATH}n
+mkdir -p ${TMP_CONFIG_PATH}
 rm -rf ${TMP_CONFIG_PATH}/*
 echo "get from server ${IP}..."
 scp -i ${k} -r  ubuntu@${IP}:/home/ubuntu/hyperledgerconfig/data/* ${TMP_CONFIG_PATH}/
@@ -161,4 +161,4 @@ do
     caName: rca.${org}.deevo.com" >> ${CONFIG_PATH}/fabric-network-config/connection-profile.yml;
 done
 
-# To run: ./get-remote-config.sh -d ~/Working/Deevo/supply-chain-service/configs -t /tmp/test-net -p 54.169.140.0 -k ~/Working/Deevo/pem/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5"
+# To run: ./get-remote-config.sh -d ~/Working/Deevo/src/supply-chain-service/configs -t /tmp/test-net -p 54.169.140.0 -k ~/Working/Deevo/pem/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5"

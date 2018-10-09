@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('supply-chain-service:server');
 var http = require('http');
+var fsx = require('fs-extra');
 
 /**
  * Get port from environment and store in Express.
@@ -32,6 +33,19 @@ server.listen(port, function () {
 
 server.on('error', onError);
 server.on('listening', onListening);
+
+process.on('uncaughtException', (err) => {
+  // here the 1 is a file descriptor for STDERR
+  fsx.writeSync(1, `Caught exception: ${err}\n`)
+})
+
+process.on('beforeExit', (code) => {
+  fsx.writeSync(1, `About to beforeExit with code: ${code}\n`)
+});
+
+process.on('exit', (code) => {
+  fsx.writeSync(1, `About to exit with code: ${code}\n`)
+});
 
 /**
  * Normalize a port into a number, string, or false.

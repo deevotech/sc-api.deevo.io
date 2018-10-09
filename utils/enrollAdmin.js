@@ -38,7 +38,7 @@ connection.initCredentialStores().then(() =>
       ]
     }).then((enrollment) => {
 
-      console.log('Successfully enrolled admin user "admin"');
+      console.log('Successfully enrolled admin user "admin-org1"');
       return connection.createUser(
       {
           username: 'admin-org1',
