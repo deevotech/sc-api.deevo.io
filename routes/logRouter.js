@@ -11,7 +11,7 @@ router.route('/')
 .get(function (req, res, next) {      
     Log.getAll().then(logs => {       
         logs.sort(Log.sortByTimestampDesc);
-        res.json(logs);
+        res.json(logs.map(i => i.Record));
     }).catch(err => {
         if(err) return next(err);
     }); 

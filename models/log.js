@@ -34,16 +34,25 @@ var Log = class {
         return network.invoke('updateLog', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.Log;
+    }
+
     static find(id)
     {
         let objectType = constants.ObjectTypes.Log;
-        return network.query('getObject', id, objectType);
+        return network.query('getObject', id, Log.getObjectType());
     }
 
     static getAll()
     {        
-        let queryString = "{\"selector\":{\"objectType\":\"log\"}}";
-        return network.query('getQueryResultForQueryString', queryString);
+        let queryString = {
+            "selector": {
+                "objectType":  Log.getObjectType()
+            } 
+        }
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 
     static sortByTimestampDesc(obj1, obj2)
