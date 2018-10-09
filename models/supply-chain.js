@@ -28,15 +28,29 @@ var Supplychain = class {
         return network.invoke('updateTraceable', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.Supplychain;
+    }
+
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Supplychain;
-        return network.query('getObject', id, objectType);
+        return network.query('getObject', id, Supplychain.getObjectType());
     }
 
     static findLogs(supplychainId)
     {
         return network.query('getLogsOfSupplychain', supplychainId);
+    }
+
+    static getAll()
+    {     
+        let queryString = {
+            "selector": {
+                "objectType":  Supplychain.getObjectType()
+            } 
+        }           
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 }
 

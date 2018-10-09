@@ -30,10 +30,24 @@ var Location = class {
         return network.invoke('updateTraceable', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.Location;
+    }
+
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Location;
-        return network.query('getObject', id, objectType);
+        return network.query('getObject', id, Location.getObjectType());
+    }
+
+    static getAll()
+    {     
+        let queryString = {
+            "selector": {
+                "objectType":  Location.getObjectType()
+            } 
+        }           
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 }
 

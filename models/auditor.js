@@ -29,15 +29,29 @@ var Auditor = class {
         return network.invoke('updateAuditor', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.Auditor;
+    }
+
     static find(auditorID)
     {
-        let objectType = constants.ObjectTypes.Auditor;
-        return network.query('getObject', auditorID, objectType);
+        return network.query('getObject', auditorID, Auditor.getObjectType());
     }
 
     static findAudits(auditorID)
     {
         return network.query('getAuditsOfAuditor', auditorID);
+    }
+
+    static getAll()
+    {     
+        let queryString = {
+            "selector": {
+                "objectType":  Auditor.getObjectType()
+            } 
+        }           
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 }
 

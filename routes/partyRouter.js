@@ -9,7 +9,11 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(function (req, res, next) {      
-    return next(new Error('Out of scope, this action is not implemented yet.'));
+    Party.getAll().then(parties => {       
+        res.json(parties.map(i => i.Record));
+    }).catch(err => {
+        if(err) return next(err);
+    });
 })
 
 .post(function (req, res, next) {
@@ -42,7 +46,17 @@ router.route('/')
 router.route('/:partyId')
 .get(function (req, res, next) {    
     Party.find(req.params.partyId).then(party => {       
-        res.json(party);
+        if(!party)
+        {
+            res.writeHead(404, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Could not found object with ID: ' + req.params.partyId);
+        } 
+        else 
+        {
+            res.json(party);
+        }
     }).catch(err => {
         if(err) return next(err);
     });    

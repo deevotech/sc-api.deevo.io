@@ -10,7 +10,11 @@ router.use(bodyParser.json());
 //=============== /api/v1/products  ===================
 router.route('/')
 .get(function (req, res, next) {      
-    return next(new Error('Out of scope, this action is not implemented yet.'));
+    Product.getAll().then(products => {       
+        res.json(products.map(i => i.Record));
+    }).catch(err => {
+        if(err) return next(err);
+    });
 })
 
 .post(function (req, res, next) {

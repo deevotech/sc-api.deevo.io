@@ -31,15 +31,29 @@ var Product = class {
         return network.invoke('updateTraceable', this);        
     }
 
-    static find(id)
+    static getObjectType()
     {
-        let objectType = constants.ObjectTypes.Product;
-        return network.query('getObject', id, objectType);
+        return constants.ObjectTypes.Product;
+    }
+
+    static find(id)
+    {        
+        return network.query('getObject', id, Product.getObjectType());
     }
 
     static findLogs(productId)
     {
         return network.query('getLogsOfProduct', productId);
+    }
+
+    static getAll()
+    {     
+        let queryString = {
+            "selector": {
+                "objectType":  Product.getObjectType()
+            } 
+        }           
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 }
 

@@ -11,7 +11,11 @@ router.use(bodyParser.json());
 //=============== /api/v1/supply-chains  ===================
 router.route('/')
 .get(function (req, res, next) {      
-    return next(new Error('Out of scope, this action is not implemented yet.'));
+    Supplychain.getAll().then(supplychains => {       
+        res.json(supplychains.map(i => i.Record));
+    }).catch(err => {
+        if(err) return next(err);
+    });
 })
 
 .post(function (req, res, next) {

@@ -42,11 +42,25 @@ var Org = class {
         return network.invoke('updateTraceable', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.Org;
+    }
+
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Org;
-        return network.query('getObject', id, objectType);
+        return network.query('getObject', id, Org.getObjectType());
     }
+
+    static getAll()
+    {     
+        let queryString = {
+            "selector": {
+                "objectType":  Org.getObjectType()
+            } 
+        }           
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
+    }    
 }
 
 module.exports = Org;

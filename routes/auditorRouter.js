@@ -12,7 +12,11 @@ router.use(bodyParser.json());
 //=============== /api/v1/auditors  ===================
 router.route('/')
 .get(function (req, res, next) {      
-    return next(new Error('Out of scope, this action is not implemented yet.'));
+    Auditor.getAll().then(auditors => {       
+        res.json(auditors.map(i => i.Record));
+    }).catch(err => {
+        if(err) return next(err);
+    });
 })
 
 .post(function (req, res, next) {

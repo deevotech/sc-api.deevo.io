@@ -30,10 +30,24 @@ var Party = class {
         return network.invoke('updateTraceable', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.Party;
+    }
+
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Party;
-        return network.query('getObject', id, objectType);
+        return network.query('getObject', id, Party.getObjectType());
+    }
+
+    static getAll()
+    {     
+        let queryString = {
+            "selector": {
+                "objectType":  Party.getObjectType()
+            } 
+        }           
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 }
 
