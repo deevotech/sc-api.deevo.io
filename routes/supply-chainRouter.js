@@ -51,7 +51,7 @@ router.route('/:supplychainId')
             res.writeHead(404, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Could not found object with ID: ' + req.params.supplychainId);
+            res.end('Could not find object with ID: ' + req.params.supplychainId);
         } 
         else
         {

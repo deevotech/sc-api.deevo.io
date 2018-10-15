@@ -51,7 +51,7 @@ router.route('/:productId')
             res.writeHead(404, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Could not found object with ID: ' + req.params.productId);
+            res.end('Could not find object with ID: ' + req.params.productId);
         } 
         else 
         {

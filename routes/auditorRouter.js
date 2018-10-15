@@ -52,7 +52,7 @@ router.route('/:auditorId')
             res.writeHead(404, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Could not found object with ID: ' + req.params.auditorId);
+            res.end('Could not find object with ID: ' + req.params.auditorId);
         } 
         else
         {
@@ -128,16 +128,16 @@ router.route('/:auditorId/audit-actions')
 router.route('/:auditorId/audit-actions/:auditActionId')
 .get(function (req, res, next) {
     AuditAction.find(req.params.auditActionId).then(auditAction => {       
-        if(!auditAction)
+        if(auditAction && auditAction.auditor === req.params.auditorId)
+        {
+            res.json(auditAction);            
+        } 
+        else
         {
             res.writeHead(404, {
                 'Content-Type': 'text/plain'
             });
-            res.end('Could not found object with ID: ' + req.params.auditActionId);
-        } 
-        else
-        {
-            res.json(auditAction);
+            res.end('Could not find the audit-action [' + req.params.auditActionId + "] that belongs to auditor [" + req.params.auditorId + "]");
         }
     }).catch(err => {
         if(err) return next(err);
