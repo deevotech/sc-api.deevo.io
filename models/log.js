@@ -41,7 +41,6 @@ var Log = class {
 
     static find(id)
     {
-        let objectType = constants.ObjectTypes.Log;
         return network.query('getObject', id, Log.getObjectType());
     }
 

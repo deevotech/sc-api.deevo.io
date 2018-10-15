@@ -32,11 +32,25 @@ var AuditAction = class {
         return network.invoke('updateAuditAction', this);        
     }
 
+    static getObjectType()
+    {
+        return constants.ObjectTypes.AuditAction;
+    }
+
     static find(id)
     {
-        let objectType = constants.ObjectTypes.AuditAction;
-        return network.query('getObject', id, objectType);
-    }    
+        return network.query('getObject', id, AuditAction.getObjectType());
+    }   
+    
+    static getAll()
+    {        
+        let queryString = {
+            "selector": {
+                "objectType":  AuditAction.getObjectType()
+            } 
+        }
+        return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
+    }
 }
 
 module.exports = AuditAction;

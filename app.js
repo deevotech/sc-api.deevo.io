@@ -21,6 +21,7 @@ var assetRouter = require('./routes/assetRouter');
 var productRouter = require('./routes/productRouter');
 var logRouter = require('./routes/logRouter');
 var supplyChainRouter = require('./routes/supply-chainRouter');
+var auditActionRouter = require('./routes/audit-actionRouter');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,6 +48,7 @@ app.use('/api/'+ apiVersion +'/assets',     assetRouter);
 app.use('/api/'+ apiVersion +'/products',   productRouter);
 app.use('/api/'+ apiVersion +'/logs',       logRouter);
 app.use('/api/'+ apiVersion +'/supply-chains', supplyChainRouter);
+app.use('/api/'+ apiVersion +'/audit-actions', auditActionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
