@@ -9,7 +9,8 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(function (req, res, next) {      
-    Log.getAll().then(logs => {       
+    let product = req.query.product;
+    Log.getAll(product).then(logs => {       
         logs.sort(Log.sortByTimestampDesc);
         res.json(logs.map(i => i.Record));
     }).catch(err => {

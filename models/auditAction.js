@@ -42,13 +42,19 @@ var AuditAction = class {
         return network.query('getObject', id, AuditAction.getObjectType());
     }   
     
-    static getAll()
+    static getAll(auditor)
     {        
         let queryString = {
             "selector": {
                 "objectType":  AuditAction.getObjectType()
             } 
         }
+
+        if(auditor)
+        {
+            queryString["selector"]["auditor"] = auditor;
+        }
+
         return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 }

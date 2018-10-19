@@ -44,13 +44,19 @@ var Log = class {
         return network.query('getObject', id, Log.getObjectType());
     }
 
-    static getAll()
+    static getAll(product)
     {        
         let queryString = {
             "selector": {
                 "objectType":  Log.getObjectType()
             } 
         }
+
+        if(product)
+        {
+            queryString["selector"]["product"] = product;
+        }
+
         return network.query('getQueryResultForQueryString', JSON.stringify(queryString));
     }
 

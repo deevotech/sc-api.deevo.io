@@ -9,7 +9,8 @@ router.use(bodyParser.json());
 
 router.route('/')
 .get(function (req, res, next) {      
-    AuditAction.getAll().then(actions => {               
+    let auditor = req.query.auditor;
+    AuditAction.getAll(auditor).then(actions => {               
         res.json(actions.map(i => i.Record));
     }).catch(err => {
         if(err) return next(err);
