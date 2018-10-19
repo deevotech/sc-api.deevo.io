@@ -11,7 +11,7 @@ router.use(bodyParser.json());
 
 //=============== /api/v1/auditors  ===================
 router.route('/')
-.get(function (req, res, next) {      
+.get(function (req, res, next) {          
     Auditor.getAll().then(auditors => {       
         res.json(auditors.map(i => i.Record));
     }).catch(err => {

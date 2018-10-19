@@ -22,6 +22,8 @@ var productRouter = require('./routes/productRouter');
 var logRouter = require('./routes/logRouter');
 var supplyChainRouter = require('./routes/supply-chainRouter');
 var auditActionRouter = require('./routes/audit-actionRouter');
+var logisticUnitRouter = require('./routes/logistic-unitRouter');
+var ptiLabelRouter = require('./routes/pti-labelRouter');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,15 +42,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/api/'+ apiVersion +'/auditors',   auditorRouter);
-app.use('/api/'+ apiVersion +'/orgs',       orgRouter);
-app.use('/api/'+ apiVersion +'/parties',    partyRouter);
-app.use('/api/'+ apiVersion +'/locations',  locationRouter);
-app.use('/api/'+ apiVersion +'/assets',     assetRouter);
-app.use('/api/'+ apiVersion +'/products',   productRouter);
-app.use('/api/'+ apiVersion +'/logs',       logRouter);
-app.use('/api/'+ apiVersion +'/supply-chains', supplyChainRouter);
-app.use('/api/'+ apiVersion +'/audit-actions', auditActionRouter);
+app.use('/api/'+ apiVersion +'/auditors',       auditorRouter);
+app.use('/api/'+ apiVersion +'/orgs',           orgRouter);
+app.use('/api/'+ apiVersion +'/parties',        partyRouter);
+app.use('/api/'+ apiVersion +'/locations',      locationRouter);
+app.use('/api/'+ apiVersion +'/assets',         assetRouter);
+app.use('/api/'+ apiVersion +'/products',       productRouter);
+app.use('/api/'+ apiVersion +'/logs',           logRouter);
+app.use('/api/'+ apiVersion +'/supply-chains',  supplyChainRouter);
+app.use('/api/'+ apiVersion +'/audit-actions',  auditActionRouter);
+app.use('/api/'+ apiVersion +'/logistic-units', logisticUnitRouter);
+app.use('/api/'+ apiVersion +'/pti-labels',     ptiLabelRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

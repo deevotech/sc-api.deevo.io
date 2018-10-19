@@ -19,6 +19,8 @@ module.exports.ObjectTypes.Log = 'log';
 module.exports.ObjectTypes.Auditor = 'auditor';
 module.exports.ObjectTypes.AuditAction = 'auditAction';
 module.exports.ObjectTypes.Supplychain = 'supplychain';
+module.exports.ObjectTypes.LogisticUnit = 'logisticUnit';
+module.exports.ObjectTypes.PTILabel = 'ptiLabel';
 
 // Deevo's test net
 module.exports.ChannelName = 'mychannel'
