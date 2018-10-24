@@ -161,4 +161,6 @@ do
     caName: rca.${org}.deevo.com" >> ${CONFIG_PATH}/fabric-network-config/connection-profile.yml;
 done
 
-# To run: ./get-remote-config.sh -d ~/Working/Deevo/src/supply-chain-service/configs -t /tmp/test-net -p 54.169.140.0 -k ~/Working/Deevo/pem/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5"
+# To run at local: ./get-remote-config.sh -d ~/Working/Deevo/src/supply-chain-service/configs -t /tmp/test-net -p 54.169.140.0 -k ~/Working/Deevo/pem/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5"
+
+# To run server-api: ./get-remote-config.sh -d /opt/gopath/src/github.com/deevotech/supply-chain-service/configs -t /tmp/test-net -p 54.169.140.0 -k /home/datlv/Documents/deevo/key/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5"
