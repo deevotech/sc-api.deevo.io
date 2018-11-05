@@ -31,209 +31,230 @@ client:
 
 # Optinal. But most app would have this so that channle objects can be constructed based on this section.
 channels:
-  mychannel: # name of channel
-    orderers:
-      - orderer0.org0.deevo.com
-    peers:
 
-      peer0.org1.deevo.com:
+  deevochannel: # name of channel
+    orderers:
+      - orderer1.org0.deevo.io
+    peers:
+      peer1.org1.deevo.io:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
-      peer0.org2.deevo.com:
+      peer1.org2.deevo.io:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
-      peer0.org3.deevo.com:
+      peer1.org3.deevo.io:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
-      peer0.org4.deevo.com:
+      peer1.org4.deevo.io:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
-      peer0.org5.deevo.com:
+      peer1.org5.deevo.io:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
+
+  aimthaichannel: # name of channel
+    orderers:
+      - orderer1.org0.deevo.io
+    peers:
+      peer1.org1.deevo.io:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.org2.deevo.io:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.org3.deevo.io:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.org4.deevo.io:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.org5.deevo.io:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
 organizations:
-  org0:
-    mspid: org0MSP
-    peers: 
-      - peer0.org0.deevo.com
-    certificateAuthorities:
-      - rca.org0.deevo.com
-    adminPrivateKey:
-      path: configs/crypto-config/orgs/org0/admin/msp/keystore/key.pem
-    signedCert:
-      path: configs/crypto-config/orgs/org0/admin/msp/signcerts/cert.pem
   org1:
     mspid: org1MSP
     peers: 
-      - peer0.org1.deevo.com
+      - peer1.org1.deevo.io
     certificateAuthorities:
-      - rca.org1.deevo.com
+      - rca.org1.deevo.io
     adminPrivateKey:
-      path: configs/crypto-config/orgs/org1/admin/msp/keystore/key.pem
+      path: configs/crypto-config/orgs/org1/admin/tls/server.key
     signedCert:
-      path: configs/crypto-config/orgs/org1/admin/msp/signcerts/cert.pem
+      path: configs/crypto-config/orgs/org1/admin/tls/server.crt
   org2:
     mspid: org2MSP
     peers: 
-      - peer0.org2.deevo.com
+      - peer1.org2.deevo.io
     certificateAuthorities:
-      - rca.org2.deevo.com
+      - rca.org2.deevo.io
     adminPrivateKey:
-      path: configs/crypto-config/orgs/org2/admin/msp/keystore/key.pem
+      path: configs/crypto-config/orgs/org2/admin/tls/server.key
     signedCert:
-      path: configs/crypto-config/orgs/org2/admin/msp/signcerts/cert.pem
+      path: configs/crypto-config/orgs/org2/admin/tls/server.crt
   org3:
     mspid: org3MSP
     peers: 
-      - peer0.org3.deevo.com
+      - peer1.org3.deevo.io
     certificateAuthorities:
-      - rca.org3.deevo.com
+      - rca.org3.deevo.io
     adminPrivateKey:
-      path: configs/crypto-config/orgs/org3/admin/msp/keystore/key.pem
+      path: configs/crypto-config/orgs/org3/admin/tls/server.key
     signedCert:
-      path: configs/crypto-config/orgs/org3/admin/msp/signcerts/cert.pem
+      path: configs/crypto-config/orgs/org3/admin/tls/server.crt
   org4:
     mspid: org4MSP
     peers: 
-      - peer0.org4.deevo.com
+      - peer1.org4.deevo.io
     certificateAuthorities:
-      - rca.org4.deevo.com
+      - rca.org4.deevo.io
     adminPrivateKey:
-      path: configs/crypto-config/orgs/org4/admin/msp/keystore/key.pem
+      path: configs/crypto-config/orgs/org4/admin/tls/server.key
     signedCert:
-      path: configs/crypto-config/orgs/org4/admin/msp/signcerts/cert.pem
+      path: configs/crypto-config/orgs/org4/admin/tls/server.crt
   org5:
     mspid: org5MSP
     peers: 
-      - peer0.org5.deevo.com
+      - peer1.org5.deevo.io
     certificateAuthorities:
-      - rca.org5.deevo.com
+      - rca.org5.deevo.io
     adminPrivateKey:
-      path: configs/crypto-config/orgs/org5/admin/msp/keystore/key.pem
+      path: configs/crypto-config/orgs/org5/admin/tls/server.key
     signedCert:
-      path: configs/crypto-config/orgs/org5/admin/msp/signcerts/cert.pem
+      path: configs/crypto-config/orgs/org5/admin/tls/server.crt
 
 orderers:
-  orderer0.org0.deevo.com:
-    url: grpcs://orderer0.org0.deevo.com:7050
+  orderer1.org0.deevo.io:
+    url: grpcs://orderer1.org0.deevo.io:7050
     grpcOptions:
-      ssl-target-name-override: orderer0.org0.deevo.com
+      ssl-target-name-override: orderer1.org0.deevo.io
       grpc-keepalive-timeout-ms: 3000
       grpc.keepalive_time_ms: 360000
       grpc-max-send-message-length: 10485760
       grpc-max-receive-message-length: 10485760
     tlsCACerts:
-      path: configs/crypto-config/orderer/msp/tlscacerts/rca-org0-deevo-com-7054.pem
+      path: configs/crypto-config/orgs/org0/msp/tlscacerts/tls-rca-org0-deevo-io-7054.pem
 peers:
-  peer0.org1.deevo.com:
-    url: grpcs://peer0.org1.deevo.com:7051
-    eventUrl: grpcs://peer0.org1.deevo.com:7053
+  peer1.org1.deevo.io:
+    url: grpcs://peer1.org1.deevo.io:7051
+    eventUrl: grpcs://peer1.org1.deevo.io:7053
     grpcOptions:
-      ssl-target-name-override: peer0.org1.deevo.com
+      ssl-target-name-override: peer1.org1.deevo.io
       grpc.keepalive_time_ms: 600000
     tlsCACerts:
-      path: configs/crypto-config/peer0.org1.deevo.com/msp/tlscacerts/rca-org1-deevo-com-7054.pem
-  peer0.org2.deevo.com:
-    url: grpcs://peer0.org2.deevo.com:7051
-    eventUrl: grpcs://peer0.org2.deevo.com:7053
+      path: configs/crypto-config/orgs/org1/msp/tlscacerts/tls-rca-org1-deevo-io-7054.pem
+  peer1.org2.deevo.io:
+    url: grpcs://peer1.org2.deevo.io:7051
+    eventUrl: grpcs://peer1.org2.deevo.io:7053
     grpcOptions:
-      ssl-target-name-override: peer0.org2.deevo.com
+      ssl-target-name-override: peer1.org2.deevo.io
       grpc.keepalive_time_ms: 600000
     tlsCACerts:
-      path: configs/crypto-config/peer0.org2.deevo.com/msp/tlscacerts/rca-org2-deevo-com-7054.pem
-  peer0.org3.deevo.com:
-    url: grpcs://peer0.org3.deevo.com:7051
-    eventUrl: grpcs://peer0.org3.deevo.com:7053
+      path: configs/crypto-config/orgs/org2/msp/tlscacerts/tls-rca-org2-deevo-io-7054.pem
+  peer1.org3.deevo.io:
+    url: grpcs://peer1.org3.deevo.io:7051
+    eventUrl: grpcs://peer1.org3.deevo.io:7053
     grpcOptions:
-      ssl-target-name-override: peer0.org3.deevo.com
+      ssl-target-name-override: peer1.org3.deevo.io
       grpc.keepalive_time_ms: 600000
     tlsCACerts:
-      path: configs/crypto-config/peer0.org3.deevo.com/msp/tlscacerts/rca-org3-deevo-com-7054.pem
-  peer0.org4.deevo.com:
-    url: grpcs://peer0.org4.deevo.com:7051
-    eventUrl: grpcs://peer0.org4.deevo.com:7053
+      path: configs/crypto-config/orgs/org3/msp/tlscacerts/tls-rca-org3-deevo-io-7054.pem
+  peer1.org4.deevo.io:
+    url: grpcs://peer1.org4.deevo.io:7051
+    eventUrl: grpcs://peer1.org4.deevo.io:7053
     grpcOptions:
-      ssl-target-name-override: peer0.org4.deevo.com
+      ssl-target-name-override: peer1.org4.deevo.io
       grpc.keepalive_time_ms: 600000
     tlsCACerts:
-      path: configs/crypto-config/peer0.org4.deevo.com/msp/tlscacerts/rca-org4-deevo-com-7054.pem
-  peer0.org5.deevo.com:
-    url: grpcs://peer0.org5.deevo.com:7051
-    eventUrl: grpcs://peer0.org5.deevo.com:7053
+      path: configs/crypto-config/orgs/org4/msp/tlscacerts/tls-rca-org4-deevo-io-7054.pem
+  peer1.org5.deevo.io:
+    url: grpcs://peer1.org5.deevo.io:7051
+    eventUrl: grpcs://peer1.org5.deevo.io:7053
     grpcOptions:
-      ssl-target-name-override: peer0.org5.deevo.com
+      ssl-target-name-override: peer1.org5.deevo.io
       grpc.keepalive_time_ms: 600000
     tlsCACerts:
-      path: configs/crypto-config/peer0.org5.deevo.com/msp/tlscacerts/rca-org5-deevo-com-7054.pem
+      path: configs/crypto-config/orgs/org5/msp/tlscacerts/tls-rca-org5-deevo-io-7054.pem
 
 certificateAuthorities:
-  rca.org0.deevo.com:
-    url: https://rca.org0.deevo.com:7054
+  rca.org0.deevo.io:
+    url: https://rca.org0.deevo.io:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: configs/crypto-config/org0-ca-cert.pem
+      path: configs/crypto-config/ca/tls.rca.org0.deevo.io.pem
     registrar:
       - enrollId: rca-org0-admin
         enrollSecret: rca-org0-adminpw
-    caName: rca.org0.deevo.com
-  rca.org1.deevo.com:
-    url: https://rca.org1.deevo.com:7054
+    caName: rca.org0.deevo.io
+  rca.org1.deevo.io:
+    url: https://rca.org1.deevo.io:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: configs/crypto-config/org1-ca-cert.pem
+      path: configs/crypto-config/ca/tls.rca.org1.deevo.io.pem
     registrar:
       - enrollId: rca-org1-admin
         enrollSecret: rca-org1-adminpw
-    caName: rca.org1.deevo.com
-  rca.org2.deevo.com:
-    url: https://rca.org2.deevo.com:7054
+    caName: rca.org1.deevo.io
+  rca.org2.deevo.io:
+    url: https://rca.org2.deevo.io:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: configs/crypto-config/org2-ca-cert.pem
+      path: configs/crypto-config/ca/tls.rca.org2.deevo.io.pem
     registrar:
       - enrollId: rca-org2-admin
         enrollSecret: rca-org2-adminpw
-    caName: rca.org2.deevo.com
-  rca.org3.deevo.com:
-    url: https://rca.org3.deevo.com:7054
+    caName: rca.org2.deevo.io
+  rca.org3.deevo.io:
+    url: https://rca.org3.deevo.io:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: configs/crypto-config/org3-ca-cert.pem
+      path: configs/crypto-config/ca/tls.rca.org3.deevo.io.pem
     registrar:
       - enrollId: rca-org3-admin
         enrollSecret: rca-org3-adminpw
-    caName: rca.org3.deevo.com
-  rca.org4.deevo.com:
-    url: https://rca.org4.deevo.com:7054
+    caName: rca.org3.deevo.io
+  rca.org4.deevo.io:
+    url: https://rca.org4.deevo.io:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: configs/crypto-config/org4-ca-cert.pem
+      path: configs/crypto-config/ca/tls.rca.org4.deevo.io.pem
     registrar:
       - enrollId: rca-org4-admin
         enrollSecret: rca-org4-adminpw
-    caName: rca.org4.deevo.com
-  rca.org5.deevo.com:
-    url: https://rca.org5.deevo.com:7054
+    caName: rca.org4.deevo.io
+  rca.org5.deevo.io:
+    url: https://rca.org5.deevo.io:7054
     httpOptions:
       verify: false
     tlsCACerts:
-      path: configs/crypto-config/org5-ca-cert.pem
+      path: configs/crypto-config/ca/tls.rca.org5.deevo.io.pem
     registrar:
       - enrollId: rca-org5-admin
         enrollSecret: rca-org5-adminpw
-    caName: rca.org5.deevo.com
+    caName: rca.org5.deevo.io

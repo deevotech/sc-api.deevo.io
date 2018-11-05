@@ -23,8 +23,8 @@ module.exports.ObjectTypes.LogisticUnit = 'logisticUnit';
 module.exports.ObjectTypes.PTILabel = 'ptiLabel';
 
 // Deevo's test net
-module.exports.ChannelName = 'mychannel'
-module.exports.ChainCodeId = 'supplychain'
+module.exports.ChannelName = 'aimthaichannel'
+module.exports.ChainCodeId = 'aimthaisupplychain'
 
 // Bao's traning net
 // module.exports.ChannelName = 'baotestchannel'
