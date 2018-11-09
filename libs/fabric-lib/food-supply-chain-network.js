@@ -1,7 +1,7 @@
 var fsx = require('fs-extra');
 var fabricClient = require('./fabric-client');
 var constants = require('../../utils/constants.js');
-var enrollAdmin = require('../../utils/enrollAdmin');
+//var enrollAdmin = require('../../utils/enrollAdmin');
 
 /**
 * A network to wrap the connection/client object to interact with HLF network. 	 	 
@@ -68,7 +68,44 @@ class FoodSupplyChainNetwork {
   }
 
   /**
-	 * Init TLS material and usercontext for used by network
+	* Get and setup TLS mutual authentication for endpoints for this connection
+	*/
+  _enroll(org)
+  {
+    var caService;
+    let username = `admin-${org}`;
+    let password = `admin-${org}pw`;
+    console.log(`Enroll with username ${username}`);
+    this.connection.loadFromConfig(`configs/fabric-network-config/${org}-profile.yaml`);
+
+    // init the storages for client's state and cryptosuite state based on connection profile configuration 
+    return this.connection.initCredentialStores()
+        .then(() => {
+            // tls-enrollment
+            caService = this.connection.getCertificateAuthority();
+            return caService.enroll({
+                enrollmentID: username,
+                enrollmentSecret: password,
+                profile: 'tls',
+                attr_reqs: [
+                    { name: "hf.Registrar.Roles" },
+                    { name: "hf.Registrar.Attributes" }
+                ]
+            }).then((enrollment) => {
+                console.log('Successfully called the CertificateAuthority to get the TLS material');
+                let key = enrollment.key.toBytes();
+                let cert = enrollment.certificate;
+
+                // set the material on the client to be used when building endpoints for the user
+                this.connection.setTlsClientCertAndKey(cert, key);
+                return this.connection.setUserContext({ username: username, password: password });
+            })
+        })
+  }
+
+  /**
+	 * Init TLS material and usercontext for used by network.
+   * Just use init if we wish to have one shared crypto material
 	 */
   init() {
     this._cleanUpTLSKeys();
@@ -92,31 +129,37 @@ class FoodSupplyChainNetwork {
   }
 
   invoke(fcn, data) {
-    var dataAsBytes = new Buffer(JSON.stringify(data));		
-    var tx_id = this.connection.newTransactionID();
-    var requestData = {
-      chaincodeId: constants.ChainCodeId,
-      fcn: fcn,
-      args: [dataAsBytes],
-      txId: tx_id
-    };
-    return this.connection.submitTransaction(requestData);
+    // In the futurre, we will change "org1" to any orgs to make load balancer
+    return this._enroll("org1").then(() => {
+      var dataAsBytes = new Buffer(JSON.stringify(data));		
+      var tx_id = this.connection.newTransactionID();
+      var requestData = {
+        chaincodeId: constants.ChainCodeId,
+        fcn: fcn,
+        args: [dataAsBytes],
+        txId: tx_id
+      };
+      return this.connection.submitTransaction(requestData);
+    })    
   }
 
   query(fcn, id, objectType) {
     
-    let localArgs = [];
-    if(id) localArgs.push(id);
-    if(objectType) localArgs.push(objectType);
-
-    var tx_id = this.connection.newTransactionID();
-    var requestData = {
-      chaincodeId: constants.ChainCodeId,
-      fcn: fcn,
-      args: localArgs,
-      txId: tx_id
-    };
-    return this.connection.query(requestData);
+    // In the futurre, we will change "org1" to any orgs to make load balancer
+    return this._enroll("org1").then(() => {
+      let localArgs = [];
+      if(id) localArgs.push(id);
+      if(objectType) localArgs.push(objectType);
+  
+      var tx_id = this.connection.newTransactionID();
+      var requestData = {
+        chaincodeId: constants.ChainCodeId,
+        fcn: fcn,
+        args: localArgs,
+        txId: tx_id
+      };
+      return this.connection.query(requestData);
+    })
   }
 }
 

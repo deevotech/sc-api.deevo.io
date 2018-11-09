@@ -14,8 +14,6 @@
 ################################################################################
 Organizations:
 
-    # SampleOrg defines an MSP using the sampleconfig. It should never be used
-    # in production but may be used as a template for other definitions.
     - &org0
         # Name is the key by which this org will be referenced in channel
         # configuration transactions.
@@ -63,6 +61,7 @@ Organizations:
             Admins:
                 Type: Signature
                 Rule: "OR('replicasMSP.admin')"
+
     - &org1
         Name: org1
         ID: org1MSP
@@ -77,12 +76,10 @@ Organizations:
             Admins:
                 Type: Signature
                 Rule: "OR('org1MSP.admin')"
-        # AnchorPeers defines the location of peers which can be used for
-        # cross-org gossip communication. Note, this value is only encoded in
-        # the genesis block in the Application section context.
         AnchorPeers:
-            - Host: peer1.org1.deevo.io
+            - Host: peer0.org1.deevo.io
               Port: 7051
+
     - &org2
         Name: org2
         ID: org2MSP
@@ -98,8 +95,9 @@ Organizations:
                 Type: Signature
                 Rule: "OR('org2MSP.admin')"
         AnchorPeers:
-            - Host: peer1.org2.deevo.io
+            - Host: peer0.org2.deevo.io
               Port: 7051
+
     - &org3
         Name: org3
         ID: org3MSP
@@ -115,8 +113,9 @@ Organizations:
                 Type: Signature
                 Rule: "OR('org3MSP.admin')"
         AnchorPeers:
-            - Host: peer1.org3.deevo.io
+            - Host: peer0.org3.deevo.io
               Port: 7051
+
     - &org4
         Name: org4
         ID: org4MSP
@@ -132,8 +131,9 @@ Organizations:
                 Type: Signature
                 Rule: "OR('org4MSP.admin')"
         AnchorPeers:
-            - Host: peer1.org4.deevo.io
+            - Host: peer0.org4.deevo.io
               Port: 7051
+
     - &org5
         Name: org5
         ID: org5MSP
@@ -149,8 +149,9 @@ Organizations:
                 Type: Signature
                 Rule: "OR('org5MSP.admin')"
         AnchorPeers:
-            - Host: peer1.org5.deevo.io
+            - Host: peer0.org5.deevo.io
               Port: 7051
+
 ################################################################################
 #
 #   CAPABILITIES
@@ -221,7 +222,7 @@ Orderer: &OrdererDefaults
     # participation in ordering.
     # NOTE: In the solo case, this should be a one-item list.
     Addresses:
-        - orderer1.org0.deevo.io:7050
+        - orderer0.org0.deevo.io:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch.
     BatchTimeout: 2s
@@ -233,10 +234,6 @@ Orderer: &OrdererDefaults
         # batch.
         MaxMessageCount: 10
 
-        # Absolute Max Bytes: The absolute maximum number of bytes allowed for
-        # the serialized messagesdocker rm $(docker ps -a -q)n a batch. If the "kafka" OrdererType is
-        # selected, set 'message.docker rm $(docker ps -a -q)x.bytes' and 'replica.fetch.max.bytes' on
-        # the Kafka brokers to a docker rm $(docker ps -a -q)lue that is larger than this one.
         AbsoluteMaxBytes: 99 MB
 
         # Preferred Max Bytes: The preferred maximum number of bytes allowed
@@ -455,8 +452,8 @@ Profiles:
             <<: *OrdererDefaults
             OrdererType: bftsmart
             Organizations:
-                - *replicas
                 - *org0
+                - *replicas
         Application:
             <<: *ApplicationDefaults
             Organizations:

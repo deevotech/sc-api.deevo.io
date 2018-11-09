@@ -2,7 +2,8 @@ var FabricClient = require('fabric-client');
 var fs = require('fs');
 var path = require('path');
 
-var connectionProfilePath = path.join(__dirname, '../../configs/fabric-network-config/connection-profile.yml');
+var connectionProfilePath = path.join(__dirname, '../../configs/fabric-network-config/connection-profile.yaml');
+var connectionClientProfilePath = path.join(__dirname, '../../configs/fabric-network-config/org1-profile.yaml');
 const CONFIG = fs.readFileSync(connectionProfilePath, 'utf8')
 var eventhubs = []; 
 
@@ -70,7 +71,7 @@ class FBClient extends FabricClient {
 
             if (all_proposal_good) {
                 console.log(
-                    'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s"',
+                    'Successfully sent Proposal and received valid ProposalResponse: Status - %s, message - "%s"',
                     proposalResponses[0].response.status, proposalResponses[0].response.message);
 
                 var request = {
@@ -102,7 +103,7 @@ class FBClient extends FabricClient {
                             },
                             (err) => {
                                 clearTimeout(handle);                                
-                                reject(new Error('Successfully received notification of the event call back being cancelled for '+ transaction_id_string));
+                                reject(new Error('Successfully received notification of the event call back being cancelled for txid: '+ transaction_id_string + ', with errr:' + err));
                             }                            
                         );
                     });
@@ -121,10 +122,8 @@ class FBClient extends FabricClient {
 
                     }).catch((err) => {
 
-                        console.log('Failed to send transaction and get notifications within the timeout period.');
-                        //throw new Error('Failed to send transaction and get notifications within the timeout period.');
-                        
-
+                        console.log(err);
+                        //throw new Error('Failed to send transaction and get notifications within the timeout period.');                        
                     });
 
             } else { // all_proposal_good == false 
@@ -157,7 +156,7 @@ class FBClient extends FabricClient {
                 console.log('Successfully closed all connections');
 
                 // define result to return back to MODEL classes.                
-                return response.status;
+                return Promise.resolve(response.status);
 
             } else {
                 console.log('Failed to order the transaction. Error code: ' + response.status);
@@ -167,8 +166,7 @@ class FBClient extends FabricClient {
         }, (err) => {
     
             console.log('Failed to send transaction due to error: ' + err.stack ? err.stack : err);
-            //throw new Error('Failed to send transaction due to error: ' + err.stack ? err.stack : err);
-    
+            //throw new Error('Failed to send transaction due to error: ' + err.stack ? err.stack : err);    
         });
     }
 
@@ -218,5 +216,6 @@ var fabricClient = new FBClient();
 // build _network_config
 // and set _admin_siging_identity (used for administrative transactions)
 fabricClient.loadFromConfig(connectionProfilePath);
+fabricClient.loadFromConfig(connectionClientProfilePath);
 
 module.exports = fabricClient;

@@ -1,0 +1,31 @@
+# The name of connection profile
+name: "org2 Client"
+version: "1.0"
+
+# Client section is for NodeJS SDK. 
+client:
+  organization: org2 # The org that this app instance belong to
+  # set connection timeouts for the peer and orderer for the client
+  connection:
+    timeout:
+      peer:
+        # the timeout in seconds to be used on requests to a peer,
+        # for example sendTransactionProposal
+        endorser: 120
+        # the timeout in seconds to be used by applications when waiting for an
+        # event to occur. This time should be used in a javascript timer object
+        # that will cancel the event registration with the event hub instance.
+        eventHub: 60
+        # the timeout in seconds to be used when setting up the connection
+        # with the peers event hub. If the peer does not acknowledge the
+        # connection within the time, the application will be notified over the
+        # error callback if provided.
+        eventReg: 30
+      # the timeout in seconds to be used on request to the orderer,
+      # for example
+      orderer: 30
+  credentialStore: # KVS of Client instance
+    path: "/tmp/hfc-kvs/org2"
+    cryptoStore: # Cryptosuite store of Client instance
+      path: "/tmp/hfc-cvs/org2"
+
