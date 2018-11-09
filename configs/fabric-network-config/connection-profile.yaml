@@ -64,6 +64,16 @@ channels:
         eventSource: true
 
 organizations:
+  org0:
+      mspid: org0MSP
+      peers: 
+        - peer0.org0.deevo.io
+      certificateAuthorities:
+        - rca.org0.deevo.io
+      adminPrivateKey:
+        path: configs/crypto-config/orgs/org0/admin/tls/server.key
+      signedCert:
+        path: configs/crypto-config/orgs/org0/admin/tls/server.crt
   org1:
     mspid: org1MSP
     peers: 

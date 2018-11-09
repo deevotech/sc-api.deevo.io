@@ -90,7 +90,7 @@ class FBClient extends FabricClient {
                             eh.disconnect();
                             console.log('REQUEST_TIMEOUT --- eventhub did not report back');
                             reject(new Error('REQUEST_TIMEOUT'));
-                        }, 60000);
+                        }, 6000);
     
                         eh.registerTxEvent(transaction_id_string.toString(),
                             (tx, code, block_num) => {
@@ -118,7 +118,25 @@ class FBClient extends FabricClient {
                     .then((results) => { // if all promises get resolved
 
                         console.log('Both sendTransactionPromise and eventhubPromises resolved.');
-                        return results[0]; // the response from main promise.
+                        //return results[0]; // the response from main promise.
+                        if (results[0].status === 'SUCCESS') {
+
+                            console.log('******************************************************************');
+                            console.log('Successfully sent transaction['+ requestData.txId.getTransactionID() +'] to the orderer and committed to ledgers');                
+                            console.log('******************************************************************');
+                            
+                            // close the connections (close peers and orderer connection from this channel) to release resources
+                            // channel.close();
+                            console.log('Successfully closed all connections');
+            
+                            // define result to return back to MODEL classes.                
+                            return Promise.resolve(results[0].status);
+            
+                        } else {
+                            console.log('Failed to order the transaction. Error code: ' + results[0].status);
+                            return Promise.reject(results[0].err);
+                            //throw new Error('Failed to order the transaction. Error code: ' + response.status);
+                        }
 
                     }).catch((err) => {
 
@@ -140,36 +158,11 @@ class FBClient extends FabricClient {
 
         },(err) => { // error method of channel.sendTransactionProposal's Promise
 
-            t.fail('Failed to send proposal due to error: ' + err.stack ? err.stack : err);
-            //throw new Error('Failed to send proposal due to error: ' + err.stack ? err.stack : err);
+            f.fail('Failed to send proposal due to error: ' + err.stack ? err.stack : err);            
 
-        }).then((response) => { //the response from main promise.
- 
-            if (response.status === 'SUCCESS') {
-
-                console.log('******************************************************************');
-                console.log('Successfully sent transaction['+ requestData.txId.getTransactionID() +'] to the orderer and committed to ledgers');                
-                console.log('******************************************************************');
-                
-                // close the connections (close peers and orderer connection from this channel) to release resources
-                // channel.close();
-                console.log('Successfully closed all connections');
-
-                // define result to return back to MODEL classes.                
-                return Promise.resolve(response.status);
-
-            } else {
-                console.log('Failed to order the transaction. Error code: ' + response.status);
-                return Promise.reject(response.err);
-                //throw new Error('Failed to order the transaction. Error code: ' + response.status);
-            }
-        }, (err) => {
-    
-            console.log('Failed to send transaction due to error: ' + err.stack ? err.stack : err);
-            //throw new Error('Failed to send transaction due to error: ' + err.stack ? err.stack : err);    
         });
     }
-
+    
     query(requestData) {
         var channel = this.getChannel(constants.ChannelName);
         return channel.queryByChaincode(requestData).then((response_payloads) => {

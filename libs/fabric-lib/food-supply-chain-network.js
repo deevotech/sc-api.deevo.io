@@ -130,8 +130,19 @@ class FoodSupplyChainNetwork {
 
   invoke(fcn, data) {
     // In the futurre, we will change "org1" to any orgs to make load balancer
-    return this._enroll("org1").then(() => {
-      var dataAsBytes = new Buffer(JSON.stringify(data));		
+    // return this._enroll("org1").then(() => {
+    //   var dataAsBytes = new Buffer(JSON.stringify(data));		
+    //   var tx_id = this.connection.newTransactionID();
+    //   var requestData = {
+    //     chaincodeId: constants.ChainCodeId,
+    //     fcn: fcn,
+    //     args: [dataAsBytes],
+    //     txId: tx_id
+    //   };
+    //   return this.connection.submitTransaction(requestData);
+    // })    
+
+    var dataAsBytes = new Buffer(JSON.stringify(data));		
       var tx_id = this.connection.newTransactionID();
       var requestData = {
         chaincodeId: constants.ChainCodeId,
@@ -140,7 +151,6 @@ class FoodSupplyChainNetwork {
         txId: tx_id
       };
       return this.connection.submitTransaction(requestData);
-    })    
   }
 
   query(fcn, id, objectType) {
