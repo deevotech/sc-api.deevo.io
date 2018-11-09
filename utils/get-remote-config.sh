@@ -181,4 +181,4 @@ done
 
 # To run at local: ./utils/get-remote-config.sh -d ~/Working/Deevo/src/sc-api.deevo.io/configs -t /tmp/test-net -p 18.136.126.89 -k ~/Working/Deevo/pem/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5" -c "deevochannel aimthaichannel"
 
-# To run at remote: ./utils/get-remote-config.sh -d /home/ubuntu/deevo/sc-insight.deevo.io/configs -t /tmp/tempplate -p 18.136.126.89 -k /var/ssh-keys/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5" -c "deevochannel aimthaichannel"
+# To run at remote: ./utils/get-remote-config.sh -d /home/ubuntu/deevo/sc-api.deevo.io/configs -t /tmp/tempplate -p 18.136.126.89 -k /home/datlv/Documents/deevo/key/dev-full-rights.pem -g "org0 org1 org2 org3 org4 org5" -c "deevochannel aimthaichannel"
