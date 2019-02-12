@@ -31,5 +31,13 @@ module.exports.ChainCodeId = 'aimthaisupplychain'
 // module.exports.ChainCodeId = 'food_supplychain'
 
 module.exports.OrgAdmin = {}
+// For Dat's Network
 module.exports.OrgAdmin.Username = 'admin-org1'
 module.exports.OrgAdmin.Password = 'admin-org1pw'
+//module.exports.OrgAdmin.Username = 'admin'
+//module.exports.OrgAdmin.Password = 'adminpw'
+
+
+module.exports.OrgUser = {}
+module.exports.OrgUser.Username = 'user-org1'
+module.exports.OrgUser.Password = 'user-org1pw'

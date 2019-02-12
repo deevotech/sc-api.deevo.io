@@ -1,4 +1,5 @@
 var FabricClient = require('fabric-client');
+const logger = FabricClient.getLogger('APPLICATION');
 var fs = require('fs');
 var path = require('path');
 
@@ -30,7 +31,7 @@ class FBClient extends FabricClient {
         var channel = this.getChannel(constants.ChannelName);
         var peers = this.getPeersForOrg();        
         var eh = channel.newChannelEventHub(peers[0].getName());      
-		eh.connect();
+		//eh.connect();
         eventhubs.push(eh);
         
         return channel.sendTransactionProposal(requestData).then(function (results) {
@@ -40,29 +41,29 @@ class FBClient extends FabricClient {
             var all_proposal_good = true;
             var err_found = null;
 
-            // check if the number of Proposal Responses is 5
-            all_proposal_good = proposalResponses.length === 5;
-
+            logger.info('TX-PROPOSAL-CHECK: Received ' + proposalResponses.length + ' Proposal Responses' );                    
+            //all_proposal_good = proposalResponses.length === 2;
+            
             // check if all Proposal Responses status are OK and valided digital signature
             for(var i in proposalResponses) {
                 let one_good = false;
                 let proposal_response = proposalResponses[i];
                 if(proposal_response.code)
                 {
-                   console.log(proposal_response.message);
+                    logger.info(proposal_response.message);
                    err_found =  new Error(proposal_response.message);
                 }
                 else 
                 if ( proposal_response.response && proposal_response.response.status === 200) {                    
-                    console.log('transaction proposal has response status of good');                    
+                    logger.info('TX-PROPOSAL-CHECK: Proposal response [' + i + '] has Response status of 200');                    
                     one_good = channel.verifyProposalResponse(proposal_response);
                     if(one_good) {
-                        console.log('transaction proposal signature and endorser are valid');
+                        logger.info('TX-PROPOSAL-CHECK: Proposal response [' + i + '] signature and endorser are VALID');
                     }                 
                     else 
                     {
-                        console.log('transaction proposal was bad');
-                        err_found = new Error('verify proposal response signature failed');
+                        logger.info('TX-PROPOSAL-CHECK: Proposal response [' + i + '] signature and endorser are IN-VALID');
+                        err_found = new Error('TX-PROPOSAL-CHECK: Proposal response [' + i + '] signature and endorser are IN-VALID');
                     }
                 }
                 
@@ -70,13 +71,23 @@ class FBClient extends FabricClient {
             }
 
             if (all_proposal_good) {
-                console.log(
-                    'Successfully sent Proposal and received valid ProposalResponse: Status - %s, message - "%s"',
-                    proposalResponses[0].response.status, proposalResponses[0].response.message);
+
+                all_proposal_good = channel.compareProposalResponseResults(proposalResponses);
+                if(all_proposal_good)
+                {
+                    logger.info('TX-PROPOSAL-CHECK: All Proposal Responses have a the same Read/Writes set');                
+                }
+                else
+                {
+                    logger.info('TX-PROPOSAL-CHECK: All Proposal Responses NOT have a the same Read/Writes set');
+                }
+
+                logger.info('TX-PROPOSAL-CHECK: Totally successfully sent Proposal and received valid ProposalResponse: Status - %s, message - "%s"', 
+                            proposalResponses[0].response.status, proposalResponses[0].response.message);
 
                 var request = {
                     proposalResponses: proposalResponses,
-                    proposal: proposal
+                    proposal: proposal                    
                 };
 
                 var transaction_id_string = requestData.txId.getTransactionID();
@@ -90,7 +101,7 @@ class FBClient extends FabricClient {
                             eh.disconnect();
                             console.log('REQUEST_TIMEOUT --- eventhub did not report back');
                             reject(new Error('REQUEST_TIMEOUT'));
-                        }, 6000);
+                        }, 60000);
     
                         eh.registerTxEvent(transaction_id_string.toString(),
                             (tx, code, block_num) => {
@@ -106,6 +117,8 @@ class FBClient extends FabricClient {
                                 reject(new Error('Successfully received notification of the event call back being cancelled for txid: '+ transaction_id_string + ', with errr:' + err));
                             }                            
                         );
+
+                        eh.connect();
                     });
     
                     eventhubPromises.push(ehPromise);
@@ -114,38 +127,39 @@ class FBClient extends FabricClient {
                 var sendTransactionPromise = channel.sendTransaction(request);
 
                 // call and wait for all promises results.
+                logger.info('Sending endorsed transaction to orderer...');
                 return Promise.all([sendTransactionPromise].concat(eventhubPromises))
                     .then((results) => { // if all promises get resolved
 
-                        console.log('Both sendTransactionPromise and eventhubPromises resolved.');
+                        logger.info('Both sendTransactionPromise and eventhubPromises resolved.');
                         //return results[0]; // the response from main promise.
                         if (results[0].status === 'SUCCESS') {
 
-                            console.log('******************************************************************');
-                            console.log('Successfully sent transaction['+ requestData.txId.getTransactionID() +'] to the orderer and committed to ledgers');                
-                            console.log('******************************************************************');
+                            logger.info('******************************************************************');
+                            logger.info('Successfully sent transaction['+ requestData.txId.getTransactionID() +'] to the orderer and committed to ledgers');                
+                            logger.info('******************************************************************');
                             
                             // close the connections (close peers and orderer connection from this channel) to release resources
                             // channel.close();
-                            console.log('Successfully closed all connections');
+                            logger.info('Successfully closed all connections');
             
                             // define result to return back to MODEL classes.                
                             return Promise.resolve(results[0].status);
             
                         } else {
-                            console.log('Failed to order the transaction. Error code: ' + results[0].status);
+                            logger.info('Failed to order the transaction. Error code: ' + results[0].status);
                             return Promise.reject(results[0].err);
                             //throw new Error('Failed to order the transaction. Error code: ' + response.status);
                         }
 
                     }).catch((err) => {
 
-                        console.log(err);
+                        logger.info('Promise.all() - Failed transaction ::'+ err);                        
                         //throw new Error('Failed to send transaction and get notifications within the timeout period.');                        
                     });
 
             } else { // all_proposal_good == false 
-                console.error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');                
+                logger.error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');                
                 if(!err_found)
                     err_found  = new Error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...'); 
 
@@ -178,7 +192,7 @@ class FBClient extends FabricClient {
                     }
                     catch(e)
                     {
-                        console.log('JSON.parse() failed with execption: ' + e);
+                        logger.info('JSON.parse() failed with execption: ' + e);
                         return Promise.reject(new Error('JSON.parse() failed with execption: ' + e));
                     }
                 }
@@ -193,19 +207,19 @@ class FBClient extends FabricClient {
                 }
             }
             else {
-                console.log('response_payloads is null');                
+                logger.info('response_payloads is null');                
                 return Promise.reject(new Error('response_payloads is null'))
             }            
         },
         (err) => {
-            console.log('Failed to send query due to error: ' + err.stack ? err.stack : err);
+            logger.info('Failed to send query due to error: ' + err.stack ? err.stack : err);
             return Promise.reject(new Error(('Failed to send query due to error: ' + err.stack ? err.stack : err)));
         });
     }
 }
 
 var fabricClient = new FBClient();
-
+FBClient.setConfigSetting('initialize-with-discovery', true);
 // build _network_config
 // and set _admin_siging_identity (used for administrative transactions)
 fabricClient.loadFromConfig(connectionProfilePath);

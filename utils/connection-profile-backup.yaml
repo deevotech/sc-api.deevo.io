@@ -1,0 +1,110 @@
+name: "Deevo network"
+version: "1.0"
+# Optinal. But most app would have this so that channle objects can be constructed based on this section.
+channels:
+
+  aimthaichannel: # name of channel
+    orderers:
+      - orderer.example.com
+    peers:
+      peer0.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer0.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+organizations:  
+  org1:
+    mspid: org1MSP
+    peers: 
+      - peer0.org1.example.com
+      - peer1.org1.example.com
+    certificateAuthorities:
+      - rca.org1.example.com
+    adminPrivateKey:
+      path: configs/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/574916d81ec538ab3c5d20e0ab5fba9318b552a495aa2fa524b250226b1dce9d_sk
+    signedCert:
+      path: configs/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+  org2:
+    mspid: org2MSP
+    peers: 
+      - peer0.org2.example.com
+      - peer1.org2.example.com
+    certificateAuthorities:
+      - rca.org2.example.com
+    adminPrivateKey:
+      path: configs/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/e109e66ef3a0db1a45f6d8ab7e94058f33a922143e1595bca7047a89e528bc4e_sk
+    signedCert:
+      path: configs/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
+
+orderers:
+  orderer.example.com:
+    url: grpcs://orderer.example.com:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+      grpc-keepalive-timeout-ms: 30000
+      grpc.keepalive_time_ms: 360000
+      grpc-max-send-message-length: 10485760
+      grpc-max-receive-message-length: 10485760
+    tlsCACerts:
+      path: configs/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+peers:
+  peer0.org1.example.com:
+    url: grpcs://peer0.org1.example.com:7051
+    eventUrl: grpcs://peer0.org1.example.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: configs/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+  peer1.org1.example.com:
+    url: grpcs://peer1.org1.example.com:7051
+    eventUrl: grpcs://peer1.org1.example.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: configs/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+  peer0.org2.example.com:
+    url: grpcs://peer0.org2.example.com:7051
+    eventUrl: grpcs://peer0.org2.example.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: configs/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+  peer1.org2.example.com:
+    url: grpcs://peer1.org2.example.com:7051
+    eventUrl: grpcs://peer1.org2.example.com:7053
+    grpcOptions:
+      ssl-target-name-override: peer1.org2.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: configs/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+
+certificateAuthorities:  
+  rca.org1.example.com:
+    url: https://rca.org1.example.com:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: configs/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: rca.org1.example.com
+  rca.org2.example.com:
+    url: https://rca.org2.example.com:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: configs/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: rca.org2.example.com
