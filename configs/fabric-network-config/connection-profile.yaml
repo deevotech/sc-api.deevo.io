@@ -3,36 +3,6 @@ version: "1.0"
 # Optinal. But most app would have this so that channle objects can be constructed based on this section.
 channels:
 
-  deevochannel: # name of channel
-    orderers:
-      - orderer0.org0.deevo.io
-    peers:
-      peer0.org1.deevo.io:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-      peer0.org2.deevo.io:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-      peer0.org3.deevo.io:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-      peer0.org4.deevo.io:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-      peer0.org5.deevo.io:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
-
   aimthaichannel: # name of channel
     orderers:
       - orderer0.org0.deevo.io
@@ -64,16 +34,6 @@ channels:
         eventSource: true
 
 organizations:
-  org0:
-      mspid: org0MSP
-      peers: 
-        - peer0.org0.deevo.io
-      certificateAuthorities:
-        - rca.org0.deevo.io
-      adminPrivateKey:
-        path: configs/crypto-config/orgs/org0/admin/tls/server.key
-      signedCert:
-        path: configs/crypto-config/orgs/org0/admin/tls/server.crt
   org1:
     mspid: org1MSP
     peers: 
